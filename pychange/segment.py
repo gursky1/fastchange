@@ -1,8 +1,6 @@
 # Importing packages
 import numpy as np
-from numba import njit
 
-@njit(fastmath=True)
 def create_summary_stats(x):
     x = np.stack([np.append(0, x.cumsum()),
                   np.append(0, (x ** 2).cumsum()),
