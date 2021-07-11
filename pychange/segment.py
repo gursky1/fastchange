@@ -62,3 +62,40 @@ def binary_segmentation(x, min_len, max_cp, penalty, cost_fn):
                 break
         
     return np.flatnonzero(cps)[1:-1]
+
+
+def pelt(x, min_len, penalty, cost_fn):
+    """Pruned exact linear time changepoint segmentation"""
+    
+    # Setting up summary statistics and objects
+    n = x.shape[0]
+    sum_stats = np.stack((np.append(0, x.cumsum()),
+                          np.append(0, (x ** 2).cumsum()),
+                          np.append(0, ((x - x.mean()) ** 2).cumsum()),
+                          np.arange(0, n + 1)),
+                         axis=-1)
+    
+    # Initializing pelt parameters
+    f = np.empty(shape=(n,), dtype=np.float64)
+    f[0] = -penalty
+    cp = []
+    r = np.array([0])
+    
+    
+    # Entering main loop
+    for tau_star in np.arange(n):
+        
+        # Calculating minimum segment cost
+        _costs = np.array([f[tau_star] + penalty + cost_fn(sum_stats[(tau + 1): tau_star]) for tau in r[tau_star]])
+        f[tau_star] = _costs.min()
+        tau_l = np.argmin(_costs)
+        
+        # Setting new changepoints
+        cp[tau_star] = cp[tau_l] + tau_l
+        
+        # Setting new candidate points
+        r = np.array([i for i, j in zip(r[tau_star], _costs) if f[i] + j <= (f[tau_star] - penalty)])
+        r = np.append(r, tau_star)
+        
+    return cp[-1]
+    
