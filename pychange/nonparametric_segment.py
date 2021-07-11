@@ -1,20 +1,20 @@
 # Importing packages
 import numpy as np
 
-from .preprocess import create_summary_stats
+from .preprocess import create_partial_sums
 
-def binary_segmentation(x, min_len, max_cp, penalty, preprocess_fn, cost_fn):
+def binary_segmentation(x, min_len, max_cp, penalty, k, preprocess_fn, cost_fn):
     """Runs binary segmentation on time series"""
 
     # Setting up summary statistics and objects
     n = x.shape[0]
-    sum_stats = preprocess_fn(x)
+    sum_stats = preprocess_fn(x, k)
     is_candidate = np.arange(min_len, n - min_len)
     cps = np.zeros(shape=(n,))
     costs = np.full(shape=n, fill_value=0.0)
     cps[-1] = 1
     cps[0] = 1
-    costs[-1] = cost_fn(sum_stats[-1:, :])[0]
+    costs[-1] = cost_fn(sum_stats, 0, n, k, n)[0]
 
     # Iterating through changepoints until convergence
     while True:
@@ -29,8 +29,8 @@ def binary_segmentation(x, min_len, max_cp, penalty, preprocess_fn, cost_fn):
             _cands = is_candidate[(is_candidate > c1) & (is_candidate < c2)]
             _costs = np.empty(shape=(_cands.shape[0], 3), dtype=np.float64)
             _other_costs = costs[: (c1 + 1)].sum() + costs[(c2 + 1):].sum()
-            _costs[:, 0] = cost_fn(sum_stats[_cands, :] - sum_stats[c1, :])
-            _costs[:, 1] = cost_fn(sum_stats[c2, :] - sum_stats[_cands, :])
+            _costs[:, 0] = np.array([cost_fn(sum_stats, c1, i, k, n) for i in _cands])
+            _costs[:, 1] = np.array([cost_fn(sum_stats, i, c2, k, n) for i in _cands])
             _costs[:, 2] = _costs[:, 0] + _costs[:, 1] + _other_costs + penalty
             _best_cand = np.argmin(_costs[:, 2])
             if _costs[_best_cand, 2] < best_total_cost:
@@ -53,12 +53,12 @@ def binary_segmentation(x, min_len, max_cp, penalty, preprocess_fn, cost_fn):
     return np.flatnonzero(cps)[1:-1]
 
 
-def pelt(x, min_len, penalty, preprocess_fn, cost_fn):
+def pelt(x, min_len, penalty, k, preprocess_fn, cost_fn):
     """Pruned exact linear time changepoint segmentation"""
     
     # Setting up summary statistics and objects
     n = x.shape[0]
-    sum_stats = preprocess_fn(x)
+    sum_stats = preprocess_fn(x, k)
     
     # Initializing pelt parameters
     f = np.empty(shape=(n,), dtype=np.float64)
@@ -73,7 +73,7 @@ def pelt(x, min_len, penalty, preprocess_fn, cost_fn):
     for tau_star in np.arange(1, n):
         
         # Calculating minimum segment cost
-        costs[r] = cost_fn(sum_stats[tau_star] - sum_stats[r])
+        costs[r] = np.array([cost_fn(sum_stats, i, tau_star, k, n) for i in r])
         _costs = costs[r] + f[r] + penalty
         
         f[tau_star] = _costs.min()
