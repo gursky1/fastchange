@@ -13,7 +13,7 @@ def create_summary_stats(x):
 def create_partial_sums(x, k):
 
     n = x.shape[0]
-    partial_sums = np.zeros(shape=(k, n + 1), dtype=np.int32)
+    partial_sums = np.zeros(shape=(n + 1, k), dtype=np.float64)
     sorted_data = np.sort(x)
 
     for i in np.arange(k):
@@ -24,9 +24,9 @@ def create_partial_sums(x, k):
 
         for j in np.arange(1, n + 1):
 
-            partial_sums[i, j] = partial_sums[i, j - 1]
+            partial_sums[j, i] = partial_sums[j - 1, i]
             if x[j - 1] < t:
-                partial_sums[i, j] += 2
+                partial_sums[j, i] += 2
             if x[j - 1] == t:
-                partial_sums[i, j] += 1
+                partial_sums[j, i] += 1
     return partial_sums
