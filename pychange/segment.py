@@ -1,20 +1,31 @@
 # Importing packages
+import math
 import numpy as np
+import numba as nb
 
-from .preprocess import create_summary_stats
+@nb.njit(fastmath=True, nogil=True)
+def amoc_segment(cost, min_len, penalty):
+    n = cost.n
+    costs = np.empty(n - 2 * min_len, dtype=np.float64)
+    for ind, i in enumerate(range(min_len, n - min_len)):
+        pre_cost = cost.cost(0, i)
+        post_cost = cost.cost(i, n)
+        costs[ind] = pre_cost + post_cost + penalty
+    return np.argmin(costs) + min_len
 
-def binary_segmentation(x, min_len, max_cp, penalty, preprocess_fn, cost_fn):
+
+@nb.njit(fastmath=True, nogil=True)
+def binary_segment(cost, min_len, max_cps, penalty):
     """Runs binary segmentation on time series"""
 
     # Setting up summary statistics and objects
-    n = x.shape[0]
-    sum_stats = preprocess_fn(x)
+    n = cost.n
     is_candidate = np.arange(min_len, n - min_len)
     cps = np.zeros(shape=(n,))
     costs = np.full(shape=n, fill_value=0.0)
     cps[-1] = 1
     cps[0] = 1
-    costs[-1] = cost_fn(sum_stats[-1:, :])[0]
+    costs[-1] = cost.cost(0, n)
 
     # Iterating through changepoints until convergence
     while True:
@@ -27,10 +38,12 @@ def binary_segmentation(x, min_len, max_cp, penalty, preprocess_fn, cost_fn):
         # Looping over candidates
         for c1, c2 in np.stack((_cps[:-1], _cps[1:]), axis=-1):
             _cands = is_candidate[(is_candidate > c1) & (is_candidate < c2)]
+            if _cands.shape[0] == 0:
+                continue
             _costs = np.empty(shape=(_cands.shape[0], 3), dtype=np.float64)
             _other_costs = costs[: (c1 + 1)].sum() + costs[(c2 + 1):].sum()
-            _costs[:, 0] = cost_fn(sum_stats[_cands, :] - sum_stats[c1, :])
-            _costs[:, 1] = cost_fn(sum_stats[c2, :] - sum_stats[_cands, :])
+            _costs[:, 0] = [cost.cost(c1, i) for i in _cands]
+            _costs[:, 1] = [cost.cost(i, c2) for i in _cands]
             _costs[:, 2] = _costs[:, 0] + _costs[:, 1] + _other_costs + penalty
             _best_cand = np.argmin(_costs[:, 2])
             if _costs[_best_cand, 2] < best_total_cost:
@@ -47,44 +60,85 @@ def binary_segmentation(x, min_len, max_cp, penalty, preprocess_fn, cost_fn):
             costs[best_cand] = best_cost
             costs[best_next] = best_next_cost
             is_candidate[(best_cand - min_len): (best_cand + min_len)] = False
-            if np.flatnonzero(cps).shape[0] > max_cp + 2:
+            if np.flatnonzero(cps).shape[0] > max_cps + 2:
                 break
         
     return np.flatnonzero(cps)[1:-1]
 
-
-def pelt(x, min_len, penalty, model):
+@nb.njit(fastmath=True, nogil=True)
+def pelt_segment(cost, min_len, max_cps, penalty, jump):
     """Pruned exact linear time changepoint segmentation"""
     
-    # Setting up summary statistics and objects
-    n = x.shape[0]
-    model.fit(x)
-    #sum_stats = preprocess_fn(x)
+    # Initializing parameters for segmentation
+    n = cost.n
+    cands = np.arange(0, n + jump, jump)
+    cands[-1] = n
+    n_cands = len(cands)
+    min_cand_len = math.ceil(min_len / jump)
     
-    # Initializing pelt parameters
-    f = np.empty(shape=(n,), dtype=np.float64)
-    f[0] = -penalty
-    costs = np.empty(shape=(n,), dtype=np.float64)
-    cp = [[]]
-    r = np.array([0])
+    # Initializing cost matrix
+    costs = np.full(n_cands, fill_value=np.inf, dtype=np.float64)
+    costs[0] = 0.0
     
+    # Initializing partitions for cp locations
+    n_cps = n_cands * (max_cps - min_cand_len)
+    cps = np.empty(n_cps, dtype=np.int64)
+    cps_starts = np.zeros(n_cands + 1, dtype=np.int64)
+    r = np.array([0], dtype=np.int64)
     
-    # Entering main loop
-    for tau_star in np.arange(1, n):
+    # Starting loop for search
+    tau_star_range = range(min_cand_len, n_cands)
+    for tau_ind, tau_star in enumerate(tau_star_range):
         
-        # Calculating minimum segment cost
-        #costs[r] = cost_fn(sum_stats[tau_star] - sum_stats[r])
-        costs[r] = model.error(r, tau_star)
-        _costs = costs[r] + f[r] + penalty
+        # Initializing for cost calc
+        r_len = len(r)
+        f = np.empty(r_len, dtype=np.float64)
         
-        f[tau_star] = _costs.min()
-        tau_l = r[np.argmin(_costs)]
+        # Calculating each candidate cost
+        for j in range(r_len):
+            tau = r[j]
+            f[j] = cost.cost(cands[tau], cands[tau_star]) + costs[tau] + penalty
+
+        # Finding best candidate
+        best_tau = np.argmin(f)
+        best_cost = f[best_tau]
+        best_r = r[best_tau]
         
-        # Setting new changepoints
-        cp.append(cp[tau_l] + [tau_l])
+        # Checking for zero condition
+        if best_r == 0:
+            r_part = np.empty(0, dtype=np.int64)
+        else:
+            r_start = cps_starts[best_r]
+            r_end = cps_starts[best_r + 1]
+            r_part = cps[r_start: r_end]
         
-        # Setting new candidate points
-        r = np.append(r[(f[r]) <= (f[tau_star] + penalty)], tau_star)
+        # Checking if we are done segmenting
+        if tau_star == n_cands - 1:
+            return cands[r_part]
         
-    return cp[-1]
+        # Updating changepoint partitions
+        _part_len = len(r_part) + 1
+        _part = np.empty(_part_len, dtype=np.int64)
+        _part[: -1] = r_part
+        _part[-1] = tau_star
+        _part_start = cps_starts[tau_star]
+        _part_end = _part_start + _part_len
+        
+        # Checking if we need to expand the max changepoint limit
+        # TODO try replacing this with a typed list in numba
+        while _part_end > n_cps:
+            _cps = cps
+            cps = np.empty(n_cps * 2, dtype=np.int64)
+            cps[: n_cps] = _cps
+            n_cps *= 2
+            
+        cps[_part_start: _part_end] = _part
+        cps_starts[tau_star + 1] = _part_end
+        
+        costs[tau_star] = best_cost
+        
+        _r = r[f <= best_cost + penalty]
+        r = np.empty(len(_r) + 1, dtype=np.int64)
+        r[: -1] = _r
+        r[-1] = tau_ind + 1
     

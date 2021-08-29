@@ -20,13 +20,14 @@ _r_cpt_methods = {
 class RChangepoint:
 
 
-    def __init__(self, method='meanvar', **kwargs):
-        self.method = method
-        self.cpt_fn = _r_cpt_methods[method]
+    def __init__(self, cost_method='meanvar', **kwargs):
+        self.cost_method = cost_method
+        self.cpt_fn = _r_cpt_methods[cost_method]
         self.kwargs = kwargs
 
     def fit(self, signal):
         self.cp = self.cpt_fn(robjects.FloatVector(signal), **self.kwargs)
+        return self
 
     def predict(self):
         return np.array(rcp.cpts(self.cp))
