@@ -15,55 +15,97 @@ def amoc_segment(cost, min_len, penalty):
 
 
 @nb.njit(fastmath=True, nogil=True)
-def binary_segment(cost, min_len, max_cps, penalty):
+def binary_segment(cost, min_len, penalty):
     """Runs binary segmentation on time series"""
 
     # Setting up summary statistics and objects
     n = cost.n
-    is_candidate = np.arange(min_len, n - min_len)
-    cps = np.zeros(shape=(n,))
-    costs = np.full(shape=n, fill_value=0.0)
-    cps[-1] = 1
-    cps[0] = 1
-    costs[-1] = cost.cost(0, n)
+    cps = np.empty(n, dtype=np.int64)
+    cps[0] = n - 1
+    n_cps = 1
+    best_total_cost = cost.cost(0, n - 1)
+    part_costs = np.empty(n, dtype=np.float64)
+    part_costs[0] = best_total_cost
+
+    # Initializing for out first run
+    pre_part_cands = np.arange(min_len - 1, n - min_len - 1)
+    post_part_cands = np.empty(0, dtype=np.int64)
+    cand_len = n - 2 * min_len
+    pre_cps_start = 0
+    pre_cps_end = n - 1
+    post_cps_start = 0
+    post_cps_end = n - 1
+    pre_costs = 0.0
+    post_costs = 0.0
+    _pre_costs = np.empty(n, dtype=np.float64)
+    _post_costs = np.empty(n, dtype=np.float64)
+    _total_costs = np.full(n, fill_value=np.inf, dtype=np.float64)
 
     # Iterating through changepoints until convergence
     while True:
 
-        # Single Loop Iteration
-        _cps = np.flatnonzero(cps)
-        best_cand, best_cost, best_next_cost, best_next = 0, 0, 0, 0
-        best_total_cost = costs.sum()
+        # Checking if there are candidates within the last created partitions
+        for i in pre_part_cands:
 
-        # Looping over candidates
-        for c1, c2 in np.stack((_cps[:-1], _cps[1:]), axis=-1):
-            _cands = is_candidate[(is_candidate > c1) & (is_candidate < c2)]
-            if _cands.shape[0] == 0:
-                continue
-            _costs = np.empty(shape=(_cands.shape[0], 3), dtype=np.float64)
-            _other_costs = costs[: (c1 + 1)].sum() + costs[(c2 + 1):].sum()
-            _costs[:, 0] = [cost.cost(c1, i) for i in _cands]
-            _costs[:, 1] = [cost.cost(i, c2) for i in _cands]
-            _costs[:, 2] = _costs[:, 0] + _costs[:, 1] + _other_costs + penalty
-            _best_cand = np.argmin(_costs[:, 2])
-            if _costs[_best_cand, 2] < best_total_cost:
-                best_cand = _cands[_best_cand]
-                best_cost = _costs[_best_cand, 0]
-                best_next_cost = _costs[_best_cand, 1]
-                best_total_cost = _costs[_best_cand, 2]
-                best_next = c2
+            # Calculating new partition costs
+            _pre_costs[i] = cost.cost(pre_cps_start, i)
+            _post_costs[i] = cost.cost(i, pre_cps_end)
+            _total_costs[i] = _pre_costs[i] + _post_costs[i] + pre_costs
 
-        if best_cand == 0:
-            break
-        else:
-            cps[best_cand] = True
-            costs[best_cand] = best_cost
-            costs[best_next] = best_next_cost
-            is_candidate[(best_cand - min_len): (best_cand + min_len)] = False
-            if np.flatnonzero(cps).shape[0] > max_cps + 2:
-                break
+        # Checking if there are candidates within the last created partitions
+        for i in post_part_cands:
+
+            # Calculating new partition costs
+            _pre_costs[i] = cost.cost(post_cps_start, i)
+            _post_costs[i] = cost.cost(i, post_cps_end)
+            _total_costs[i] = _pre_costs[i] + _post_costs[i] + post_costs
         
-    return np.flatnonzero(cps)[1:-1]
+        # Checking all candidates to compare against
+        best_ind = np.argmin(_total_costs)
+        best_cost = _total_costs[best_ind]
+
+        # Checking if the new changepoint is worth it
+        if best_cost >= best_total_cost - penalty:
+            break
+
+        # New changepoint detected
+        cps[n_cps] = best_ind
+        old_cost_sum = part_costs[: n_cps].sum()
+        n_cps += 1
+        sorted_inds = np.argsort(cps[: n_cps])
+        new_cp_ind = np.argsort(sorted_inds)[n_cps - 1]
+        cps[: n_cps] = cps[sorted_inds]
+        part_costs[: n_cps] = part_costs[sorted_inds]
+        pre_cp_ind = new_cp_ind - 1
+        post_cp_ind = new_cp_ind + 1
+        part_costs[new_cp_ind] = _pre_costs[best_ind]
+        part_costs[post_cp_ind] = _post_costs[best_ind]
+
+        # Setting values for next run
+        if pre_cp_ind == -1:
+            pre_cps_start = 0
+        else:
+            pre_cps_start = cps[pre_cp_ind]
+        pre_cps_end = best_ind
+        post_cps_start = best_ind
+        post_cps_end = cps[post_cp_ind]
+        cost_sum = part_costs[: n_cps].sum()
+        cost_change = cost_sum - old_cost_sum
+        pre_costs = cost_sum - part_costs[new_cp_ind]
+        post_costs = cost_sum - part_costs[post_cp_ind]
+
+        # Setting up new candidate arrays
+        pre_part_cands = np.arange(pre_cps_start + min_len, pre_cps_end - min_len)
+        post_part_cands = np.arange(post_cps_start + min_len, post_cps_end - min_len)
+
+        # Updating total cost change with outer partitions
+        _total_costs[: pre_cps_start] += cost_change
+        _total_costs[post_cps_end: ] += cost_change
+        _total_costs[best_ind - min_len: best_ind + min_len] = np.inf
+        best_total_cost = best_cost
+
+    return cps[: n_cps]
+
 
 @nb.njit(fastmath=True, nogil=True)
 def pelt_segment(cost, min_len, max_cps, penalty, jump):

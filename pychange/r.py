@@ -9,6 +9,7 @@ import rpy2.robjects as robjects
 utils = rpackages.importr('utils')
 rcp = rpackages.importr('changepoint')
 rcpnp = rpackages.importr('changepoint.np')
+rocp = rpackages.importr('ocp')
 
 _r_cpt_methods = {
     "mean": rcp.cpt_mean,
@@ -17,7 +18,7 @@ _r_cpt_methods = {
     "np": rcpnp.cpt_np
 }
 
-class RChangepoint:
+class ROfflineChangepoint:
 
 
     def __init__(self, cost_method='meanvar', **kwargs):
@@ -31,3 +32,16 @@ class RChangepoint:
 
     def predict(self):
         return np.array(rcp.cpts(self.cp))
+
+class ROCP:
+
+    def __init(self, **kwargs):
+        self.kwargs = kwars
+    
+    def fit(self, signal):
+        _x = robjects.FloatVector(signal)
+        self.cp = rocp.onlineCPD(_x)
+        return self
+    
+    def predict(self):
+        return np.array(self.cp.rx2('changepoint_lists').rx2('colmaxes'))[0].astype(np.int64)[1:]

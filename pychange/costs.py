@@ -5,6 +5,47 @@ import numba as nb
 
 @nb.experimental.jitclass([
     ('n', nb.int64),
+    ('y', nb.float64[:])
+])
+class L1Cost:
+
+    def __init__(self):
+        pass
+
+    def fit(self, x):
+        self.y = x
+        self.n = x.shape[0]
+        return self
+
+    def cost(self, start, end):
+        _x = self.y[start: end]
+        _med = np.median(_x)
+        _diff = np.abs(_x - _med)
+        return _diff.sum()
+
+
+@nb.experimental.jitclass([
+    ('n', nb.int64),
+    ('y', nb.float64[:])
+])
+class L2Cost:
+
+    def __init__(self):
+        pass
+
+    def fit(self, x):
+        self.y = x
+        self.n = x.shape[0]
+        return self
+
+    def cost(self, start, end):
+        _x = self.y[start: end]
+        _n = end - start
+        return _n * _x.var()
+
+
+@nb.experimental.jitclass([
+    ('n', nb.int64),
     ('y1', nb.float64[:]),
     ('y2', nb.float64[:]),
 ])
