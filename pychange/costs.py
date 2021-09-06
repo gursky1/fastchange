@@ -148,6 +148,50 @@ class PoissonMeanVarCost:
         a1 = math.log(n) - math.log(d1)
         return 2.0 * d1 * a1
 
+
+@nb.experimental.jitclass([
+    ('n', nb.int64),
+    ('y1', nb.float64[:])
+])
+class ExponentialMeanVarCost:
+
+    def __init__(self):
+        pass
+    
+    def fit(self, x):
+        self.n = x.shape[0]
+        self.y1 = np.append(0.0, x.cumsum())
+        return self
+    
+    def cost(self, start, end):
+
+        d1 = self.y1[end] - self.y1[start]
+        n = end - start
+        return 2.0 * n * (math.log(d1) - math.log(n))
+
+
+@nb.experimental.jitclass([
+    ('shape', nb.float64),
+    ('n', nb.int64),
+    ('y1', nb.float64[:])
+])
+class GammaMeanVarCost:
+
+    def __init__(self, shape=1.0):
+        self.shape = shape
+
+    def fit(self, x):
+        self.n = x.shape[0]
+        self.y1 = np.append(0.0, x.cumsum())
+        return self
+
+    def cost(self, start, end):
+
+        d1 = self.y1[end] - self.y1[start]
+        n = end - start
+        return 2.0 * n * self.shape * (math.log(d1) - math.log(n * self.shape))
+
+
 @nb.experimental.jitclass([
     ('k', nb.int64),
     ('n', nb.int64),
