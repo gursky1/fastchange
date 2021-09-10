@@ -128,6 +128,38 @@ class NormalMeanVarCost:
 @nb.experimental.jitclass([
     ('n', nb.int64),
     ('y1', nb.float64[:]),
+    ('y2', nb.float64[:]),
+])
+class NormalMeanVarCostFast:
+    
+    def __init__(self):
+        pass
+    
+    def fit(self, x):
+        self.n = x.shape[0]
+        self.y1 = np.append(0.0, x.cumsum())
+        self.y2 = np.append(0.0, (x ** 2).cumsum())
+        return self
+    
+    def cost(self, start, end):
+        return _normal_mean_var_cost(self.y1, self.y2, start, end)
+
+@nb.njit(fastmath=True, nogil=True)
+def _normal_mean_var_cost(y1, y2, start, end):
+    n = end - start
+    d1 = y1[end] - y1[start]
+    d2 = y2[end] - y2[start]
+    a1 = (d1 ** 2) / n
+    a2 = d2 - a1
+    a3 = a2 / n
+    if a3 <= 0.0:
+        a3 = 1e-8
+    a4 = 2.8378771 + math.log(a3)
+    return n * a4
+
+@nb.experimental.jitclass([
+    ('n', nb.int64),
+    ('y1', nb.float64[:]),
 ])
 class PoissonMeanVarCost:
     
@@ -245,3 +277,62 @@ class NonParametricCost:
                     ld = diff * l
                     cost += ld
         return self.c * cost
+
+@nb.experimental.jitclass([
+    ('k', nb.int64),
+    ('n', nb.int64),
+    ('y', nb.float64[:, :]),
+    ('c', nb.float64)
+])
+class NonParametricCostParallel:
+    
+    def __init__(self, k):
+        self.k = k
+    
+    def fit(self, x):
+        self.n = x.shape[0]
+        self.c = 2.0 * (-np.log(2 * self.n - 1)) / self.k
+        self.y = _make_partial_sums(x, self.n, self.k)
+        return self
+    
+    def cost(self, start, end):
+        return _nonparametric_cost(self.y[start, :], self.y[end, :], start, end, self.k, self.c)
+
+@nb.njit(fastmath=True, nogil=True, parallel=True)
+def _make_partial_sums(x, n, k):
+    partial_sums = np.zeros(shape=(n + 1, k), dtype=np.float64)
+    sorted_data = np.sort(x)
+    for i in nb.prange(k):
+
+        z = -1 + (2 * i + 1.0) / k
+        p = 1.0 / (1 + (2 * n - 1) ** (-z))
+        t = sorted_data[int((n - 1) * p)]
+
+        for j in nb.prange(1, n + 1):
+
+            partial_sums[j, i] = partial_sums[j - 1, i]
+            if x[j - 1] < t:
+                partial_sums[j, i] += 2
+            if x[j - 1] == t:
+                partial_sums[j, i] += 1
+    return partial_sums
+
+@nb.njit(fastmath=True, nogil=True)
+def _nonparametric_cost(ys, ye, start, end, k, c):
+    cost = 0.0
+    for j in nb.prange(k):
+        a_sum = ye[j] - ys[j]
+        if a_sum != 0.0:
+            diff = end - start
+            a_half = 0.5 * a_sum
+            if a_half != diff:
+                f = a_half / diff
+                fi = 1.0 - f
+                flog = math.log(f)
+                filog = math.log(fi)
+                t = f * flog
+                ti = fi * filog
+                l = t + ti
+                ld = diff * l
+                cost += ld
+    return c * cost
