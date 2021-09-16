@@ -5,7 +5,7 @@ from functools import partial
 import numpy as np
 from pychange.costs import L1Cost, L2Cost, NormalMeanCost, NormalVarCost, NormalMeanVarCost, PoissonMeanVarCost, ExponentialMeanVarCost, GammaMeanVarCost, EmpiricalCost
 from pychange.segment import AmocSeg, BinSeg, PeltSeg, pelt_segment
-from pychange.online import ConstantHazard, StudentTProb, OnlineCP, StudentTProbParallel, OnlineCPParallel
+from pychange.online import ConstantHazard, StudentTProb, OnlineCP
 from pychange.r import ROfflineChangepoint, ROCP
 from pychange.penalties import mbic_penalty
 import ruptures as rpt
