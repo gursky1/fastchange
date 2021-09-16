@@ -15,7 +15,7 @@ class ConstantHazard:
         self.lt = 1.0 / l
     
     def h(self, x):
-        return np.repeat(1 / self.lt, x)
+        return np.repeat(self.lt, x)
 
 # Gaussian probability
 @nb.njit(fastmath=True)

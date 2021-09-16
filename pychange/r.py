@@ -36,7 +36,7 @@ class ROfflineChangepoint:
 class ROCP:
 
     def __init(self, **kwargs):
-        self.kwargs = kwars
+        self.kwargs = kwargs
     
     def fit(self, signal):
         _x = robjects.FloatVector(signal)

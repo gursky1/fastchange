@@ -12,6 +12,6 @@ if __name__ == '__main__':
         version='0.0.1',
         packages=['pychange'],
         #ext_modules= [cc.distutils_extension()],# + cythonize(Extension('cython_costs', ['pychange/cython_costs.pyx'])),
-        install_requires=['numpy', 'numba', 'ruptures'],
+        #install_requires=['numpy', 'numba', 'ruptures'],
         #include_dirs=[numpy.get_include()]
     )
