@@ -1,6 +1,5 @@
 # Importing packages
 import math
-import numpy as np
 import numba as nb
 
 

@@ -40,7 +40,6 @@ class AmocSeg:
 @nb.njit(fastmath=True, nogil=True, parallel=True)
 def binary_segment(cost, min_len, penalty):
     """Runs binary segmentation on time series"""
-    # TODO implement mbic
 
     # Setting up summary statistics and objects
     n = cost.n

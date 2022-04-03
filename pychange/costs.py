@@ -9,11 +9,20 @@ _core_cost_vars = [('n', nb.int64), ('n_params', nb.int64)]
     ('y', nb.float64[:]),
 ])
 class L1Cost:
+    """L1 cost class"""
 
     def __init__(self):
         self.n_params = 1
 
-    def fit(self, x):
+    def fit(self, x: np.ndarray):
+        """Fit method for L1 cost
+
+        Args:
+            x (np.ndarray): Input time series
+
+        Returns:
+            L1Cost: self
+        """
         self.y = x
         self.n = x.shape[0]
         return self
@@ -24,6 +33,7 @@ class L1Cost:
 
 @nb.njit(['f8(f8[:])'], fastmath=True, nogil=True)
 def _l1_cost(y):
+    """"""
     return np.abs(y - np.median(y)).sum()
 
 
@@ -70,7 +80,8 @@ class NormalMeanCost:
                                 self.y2[end],
                                 start,
                                 end)
-    
+
+
 @nb.njit(['f8(f8, f8, f8, f8, i8, i8)'], fastmath=True, nogil=True)
 def _normal_mean_cost(y1s, y1e, y2s, y2e, start, end):
     n = end - start
@@ -79,6 +90,7 @@ def _normal_mean_cost(y1s, y1e, y2s, y2e, start, end):
     a1 = (d1 ** 2) / n
     cost = d2 - a1
     return cost
+
 
 @nb.experimental.jitclass(_core_cost_vars + [
     ('y', nb.float64[:])
@@ -251,6 +263,7 @@ class EmpiricalCost:
     
     def cost(self, start, end):
         return _empirical_cost(self.y[start, :], self.y[end, :], start, end, self.k, self.c)
+
 
 @nb.njit(['f8[:, :](f8[:], i8, i8)'], fastmath=True, nogil=True)
 def _make_partial_sums(x, n, k):

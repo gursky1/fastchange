@@ -1,0 +1,4 @@
+numpy
+numba
+icc_rt
+rpy2

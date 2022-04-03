@@ -110,7 +110,7 @@ def _student_t_pdf(x, n, m, k, a, b):
     return results
 
 
-# OnlineCP class
+
 @nb.experimental.jitclass([
     ('hazard', nb.typeof(ConstantHazard())),
     ('prob_model', nb.typeof(StudentTProb())),
