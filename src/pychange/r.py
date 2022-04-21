@@ -32,12 +32,12 @@ class ROfflineChangepoint:
         self.cpt_fn = _r_cpt_methods[cost_method]
         self.kwargs = kwargs
 
-    def fit(self, signal):
-        self.cp = self.cpt_fn(robjects.FloatVector(signal), **self.kwargs)
+    def fit(self, y):
+        self.cps = self.cpt_fn(robjects.FloatVector(y), **self.kwargs)
         return self
 
     def predict(self):
-        return np.array(rcp.cpts(self.cp))
+        return np.array(rcp.cpts(self.cps))
 
 class ROCP:
 
