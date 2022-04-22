@@ -10,6 +10,10 @@ class AmocSeg(BaseSeg):
     @staticmethod
     @nb.njit(seg_sig(), fastmath=True, nogil=True, parallel=True)
     def seg_fn(cost, sumstats, cost_args, penalty, min_len, max_cps, n):
+
+        # Creating partial cost function
+        def _cost_fn(start, end):
+            return cost(start, end, sumstats, cost_args)
         
         # Getting cost with no changepoints
         null_cost = cost(0, n, sumstats, cost_args)
@@ -17,7 +21,7 @@ class AmocSeg(BaseSeg):
         # Finding possible changepoint locations
         costs = np.empty(n - 2 * min_len, dtype=np.float64)
         for i in nb.prange(min_len, n - min_len):
-            costs[i - min_len] = cost(0, i, sumstats, cost_args) + cost(i, n, sumstats, cost_args) + penalty
+            costs[i - min_len] = _cost_fn(0, i, sumstats, cost_args) + _cost_fn(i, n, sumstats, cost_args) + penalty
         
         # Determining if best changepoint better than null
         best_ind = np.argmin(costs)

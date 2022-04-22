@@ -37,7 +37,7 @@ class ROfflineChangepoint:
         return self
 
     def predict(self):
-        return np.array(rcp.cpts(self.cps))
+        return np.int64(rcp.cpts(self.cps))
 
 class ROCP:
 

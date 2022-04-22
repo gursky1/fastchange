@@ -6,6 +6,21 @@ import numba as nb
 
 from .base import BaseCost, preprocess_sig, cost_sig
 
+
+@nb.njit(cost_sig, fastmath=True)
+def gamma_cost(s, e, y, cost_args):
+    d1 = y[e, 0] - y[s, 0]
+    n = e - s
+    cost = 2.0 * n * cost_args[0] * (math.log(d1) - math.log(n * cost_args[0]))
+    return cost
+
+
+@nb.njit(cost_sig, fastmath=True)
+def gamma_cost_mbic(s, e, y, cost_args):
+    cost = gamma_cost(s, e, y, cost_args)
+    return cost + math.log(e - s)
+
+
 class GammaMeanVarCost(BaseCost):
     
     n_params = 1
@@ -22,10 +37,5 @@ class GammaMeanVarCost(BaseCost):
 
         return sumstats, args
     
-    @staticmethod
-    @nb.njit(cost_sig, fastmath=True, nogil=True)
-    def cost_fn(start, end, sumstats, cost_args):
-        d1 = sumstats[end, 0] - sumstats[start, 0]
-        n = end - start
-        cost = 2.0 * n * cost_args[0] * (math.log(d1) - math.log(n * cost_args[0]))
-        return cost
+    cost_fn = staticmethod(gamma_cost)
+    cost_fn_mbic = staticmethod(gamma_cost_mbic)

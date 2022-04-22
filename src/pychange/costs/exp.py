@@ -6,6 +6,21 @@ import numba as nb
 
 from .base import BaseCost, preprocess_sig, cost_sig
 
+
+
+@nb.njit(cost_sig, fastmath=True)
+def exponential_cost(s, e, y, cost_args):
+    d1 = y[e, 0] - y[s, 0]
+    n = e - s
+    cost = 2.0 * n * (math.log(d1) - math.log(n))
+    return cost
+
+@nb.njit(cost_sig, fastmath=True)
+def exponential_cost_mbic(s, e, y, cost_args):
+    cost = exponential_cost(s, e, y, cost_args)
+    return cost + math.log(e - s)
+
+
 class ExponentialMeanVarCost(BaseCost):
     
     n_params = 1
@@ -18,10 +33,5 @@ class ExponentialMeanVarCost(BaseCost):
 
         return sumstats, np.float64([0.0])
     
-    @staticmethod
-    @nb.njit(cost_sig, fastmath=True, nogil=True)
-    def cost_fn(start, end, sumstats, cost_args):
-        d1 = sumstats[end, 0] - sumstats[start, 0]
-        n = end - start
-        cost = 2.0 * n * (math.log(d1) - math.log(n))
-        return cost
+    cost_fn = staticmethod(exponential_cost)
+    cost_fn_mbic = staticmethod(exponential_cost_mbic)

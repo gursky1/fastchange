@@ -12,7 +12,7 @@ class BinSeg(BaseSeg):
     def seg_fn(cost, sumstats, cost_args, penalty, min_len, max_cps, n):
         
         # Creating partial cost function
-        def _cost_fn(start, end):
+        def _cost_fn(start, end,):
             return cost(start, end, sumstats, cost_args)
 
         # Initializing our array of changepoint candidates and costs

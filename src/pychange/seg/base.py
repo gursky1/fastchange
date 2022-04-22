@@ -4,6 +4,7 @@ import numba as nb
 from numba.types import FunctionType
 
 from ..costs.base import BaseCost, cost_sig
+from ..penalties import mbic_penalty
 
 
 def seg_sig(*args):
@@ -17,6 +18,7 @@ class BaseSeg:
         self.penalty = penalty
         self.min_len = min_len
         self.max_cps = max_cps
+        self.mbic = penalty == mbic_penalty
         
     def fit(self, y):
         # Fitting penalty
@@ -30,7 +32,8 @@ class BaseSeg:
         self.cost.fit(y)
         
         # Running segmentation
-        self.cps = self.seg_fn(self.cost.cost_fn, self.cost.sumstats, self.cost.cost_args, self.pen, self.min_len, self.max_cps, self.n)
+        cost_fn = self.cost.cost_fn_mbic if self.mbic else self.cost.cost_fn
+        self.cps = self.seg_fn(cost_fn, self.cost.sumstats, self.cost.cost_args, self.pen, self.min_len, self.max_cps, self.n)
         if self.cps.shape[0] == 1 and self.cps[0] == -1:
             self.cps = np.int64([])
         return self
