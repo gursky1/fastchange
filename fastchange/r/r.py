@@ -1,11 +1,5 @@
 # Importing packages
-import os
 import numpy as np
-
-# Setting Rpy2 environment
-#os.environ['R_HOME'] = r"C:\Program Files\R\R-4.1.1"
-#os.environ['R_LIBS_USER'] = r"C:\Users\15072\Documents\R\win-library\4.1"
-#os.environ['R_USER'] = r"C:\Users\15072\anaconda3\envs\8801\Lib\site-packages\rpy2"
 
 # import rpy2's package module
 import rpy2.robjects.packages as rpackages

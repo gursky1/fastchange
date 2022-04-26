@@ -6,9 +6,13 @@ if __name__ == '__main__':
     
     # Running setup
     setup(
-        name='pychange',
-        version='0.0.1',
-        package_dir={'': 'src'},
-        packages=find_packages(where='src'),
-        install_requires=['numpy', 'numba', 'icc_rt', 'ruptures', 'rpy2']
+        name='fastchange',
+        version='0.0.1a',
+        package_dir={'': 'fastchange'},
+        packages=find_packages(where='fastchange'),
+        install_requires=['numpy', 'numba'],
+        extras_require={
+            'r': ['rpy2'],
+            'svml': ['icc_rt']
+        }
     )
