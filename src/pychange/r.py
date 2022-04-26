@@ -41,7 +41,7 @@ class ROfflineChangepoint:
 
 class ROCP:
 
-    def __init(self, **kwargs):
+    def __init__(self, **kwargs):
         self.kwargs = kwargs
     
     def fit(self, signal):

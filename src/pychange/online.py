@@ -18,6 +18,28 @@ class ConstantHazard:
         return np.repeat(self.lt, x)
 
 
+@nb.njit('f8[:](f8, i8, f8[:], f8[:], f8[:], f8[:])', fastmath=True)
+def _student_t_pdf(x, n, m, k, a, b):
+    n = n + 1
+    results = np.empty((n,), dtype=np.float64)
+    for i in range(n):
+        loc = m[i]
+        var = b[i]* (k[i] + 1) / (a[i] * k[i])
+        scale = math.sqrt(var)
+        df = 2.0 * a[i]  
+        y = (x - loc) / scale
+        c0 = (df + 1) / 2
+        c1 = math.lgamma(c0)
+        c2 = math.lgamma(df / 2)
+        c3 = math.exp(c1 - c2)
+        d1 = math.sqrt(math.pi * df)
+        d2 = 1 + y ** 2 / df
+        d3 = d1 * d2 ** c0
+        r = c3 / d3
+        results[i] = r / scale
+    return results
+
+
 @nb.experimental.jitclass([
     ('mu0', nb.float64),
     ('kappa0', nb.float64),
@@ -88,29 +110,6 @@ class StudentTProb:
         return self
 
 
-@nb.njit(fastmath=True, nogil=True)
-def _student_t_pdf(x, n, m, k, a, b):
-    n = n + 1
-    results = np.empty((n,), dtype=np.float64)
-    for i in nb.prange(n):
-        loc = m[i]
-        var = b[i]* (k[i] + 1) / (a[i] * k[i])
-        scale = math.sqrt(var)
-        df = 2.0 * a[i]  
-        y = (x - loc) / scale
-        c0 = (df + 1) / 2
-        c1 = math.lgamma(c0)
-        c2 = math.lgamma(df / 2)
-        c3 = math.exp(c1 - c2)
-        d1 = math.sqrt(math.pi * df)
-        d2 = 1 + y ** 2 / df
-        d3 = d1 * d2 ** c0
-        r = c3 / d3
-        results[i] = r / scale
-    return results
-
-
-
 @nb.experimental.jitclass([
     ('hazard', nb.typeof(ConstantHazard())),
     ('prob_model', nb.typeof(StudentTProb())),
@@ -122,7 +121,7 @@ def _student_t_pdf(x, n, m, k, a, b):
 class OnlineCP:
     """https://arxiv.org/abs/0710.3742"""
     
-    def __init__(self, hazard, prob_model, wait_iters, cp_threshold):
+    def __init__(self, hazard, prob_model, wait_iters: int=3, cp_threshold: float=0.5):
         self.hazard = hazard
         self.prob_model = prob_model
         self.wait_iters = wait_iters
