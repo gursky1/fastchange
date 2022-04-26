@@ -17,7 +17,7 @@ Fastchange can be installed in three different ways: conda, pip, or directly thr
 
 ## Example notebook
 
-See example.ipynb under examples/ for some sample code to get started with fastchange.
+See simple.ipynb under examples/ for some sample code to get started with fastchange.
 
 # Installing with extras
 
