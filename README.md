@@ -15,7 +15,11 @@ Fastchange can be installed in three different ways: conda, pip, or directly thr
 **3. Via git**
 `pip install git+https://github.com/gursky1/fastchange`
 
-## Installing with extras
+## Example notebook
+
+See example.ipynb under examples/ for some sample code to get started with fastchange.
+
+# Installing with extras
 
 **icc_rt**
 

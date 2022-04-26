@@ -8,8 +8,7 @@ if __name__ == '__main__':
     setup(
         name='fastchange',
         version='0.0.1a',
-        package_dir={'': 'fastchange'},
-        packages=find_packages(where='fastchange'),
+        packages=find_packages(),
         install_requires=['numpy', 'numba'],
         extras_require={
             'r': ['rpy2'],
