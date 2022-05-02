@@ -247,9 +247,75 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          About change point detection
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         About change point detection
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-it" class="md-nav__link">
+    What is it?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offline-vs-online" class="md-nav__link">
+    Offline vs Online
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#components-of-change-point-detection" class="md-nav__link">
+    Components of change point detection
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#segmentation-algorithm" class="md-nav__link">
+    Segmentation algorithm
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#segment-cost" class="md-nav__link">
+    Segment cost
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complexity-penalty" class="md-nav__link">
+    Complexity penalty
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -672,6 +738,56 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-it" class="md-nav__link">
+    What is it?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#offline-vs-online" class="md-nav__link">
+    Offline vs Online
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#components-of-change-point-detection" class="md-nav__link">
+    Components of change point detection
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#segmentation-algorithm" class="md-nav__link">
+    Segmentation algorithm
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#segment-cost" class="md-nav__link">
+    Segment cost
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complexity-penalty" class="md-nav__link">
+    Complexity penalty
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -685,6 +801,20 @@
 
 
 <h1 id="about-change-point-detection">About change point detection<a class="headerlink" href="#about-change-point-detection" title="Permanent link">&para;</a></h1>
+<h2 id="what-is-it">What is it?<a class="headerlink" href="#what-is-it" title="Permanent link">&para;</a></h2>
+<p>Change point detection is a subfield of signal process and time series analysis that's concerned with detecting structural changes in a signal. More simply, we want to detect when a signal has changed significantly. The points where the signal has changed are refered to as <strong>change points</strong>. What a "change" means depends on what we care about in the signal, usually this is the mean and/or variance of the noise distribution of the signal.  Shown below is an example of an artifial time series drawn from a random normal distribution with two change points (denoted by the dashed red lines).</p>
+<p><img alt="" src="../sample.png" /></p>
+<h2 id="offline-vs-online">Offline vs Online<a class="headerlink" href="#offline-vs-online" title="Permanent link">&para;</a></h2>
+<p>Like other areas of machine learning, change point detection usually comes in offline and online forms. In the offline case, we consider our dataset fixed and only perform the segmentation of the segmentation once. Offline change point is much faster, but should the signal change, we would have to start over. Online methods are able to update as new data comes in, but usually at the cost of exactness and efficiency. Fastchange currently only implements offline detection, but could be expanded to include online methods.</p>
+<h2 id="components-of-change-point-detection">Components of change point detection<a class="headerlink" href="#components-of-change-point-detection" title="Permanent link">&para;</a></h2>
+<p>There are three major components of most offline change point detection algorithms, which we will go over in the sections below.</p>
+<h2 id="segmentation-algorithm">Segmentation algorithm<a class="headerlink" href="#segmentation-algorithm" title="Permanent link">&para;</a></h2>
+<p>To identify where change points (of which there could be multiple) are in a signal, we need a method to search all potential locations in an efficient manner. These are known as segmentation algorithms. Shown below is an example of binary segmentation, a fast, approximate method for finding multiple change points, segmenting a signal over three iterations:</p>
+<p><img alt="" src="../binseg.png" /></p>
+<h2 id="segment-cost">Segment cost<a class="headerlink" href="#segment-cost" title="Permanent link">&para;</a></h2>
+<p>The second major component is the cost function, which tells us how how homogeneous a given subsignal of our signal is. Usually this takes the form of maximum likelihood estimation of location and/or scale parameters of exponential family distributions, like the normal distribution. The segmentation method in the previous section discovers change points by trying to minimize the sum of the segment costs of a signal.</p>
+<h2 id="complexity-penalty">Complexity penalty<a class="headerlink" href="#complexity-penalty" title="Permanent link">&para;</a></h2>
+<p>The last component of our model, penalty functions penalize the complexity of the model. Without some sort of cost to additional change points, our model would want to separate the signal into as many change points as there are observations. To fix this, we add an information criterion (usually MBIC, BIC, or AIC) thats a function of the number of change points discovered to the segment cost from the previous section. The lower the penalty, the more change points the segmenter will find, and the higher penalty, the fewer change points discovered.</p>
 
               
             </article>
