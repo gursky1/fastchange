@@ -1,0 +1,72 @@
+site_name: fastchange
+
+markdown_extensions:
+
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - toc:
+      permalink: true
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+
+plugins:
+- search
+- gen-files:
+    scripts:
+    - docs/gen_ref_pages.py
+- mkdocs-jupyter:
+    include: ["user_guide/*.ipynb"]
+- literate-nav:
+    nav_file: SUMMARY.md
+- section-index
+- mkdocstrings:
+    default_handler: python
+    watch:
+      - fastchange
+    handlers:
+      python:
+        rendering:
+          show_source: false
+          show_submodules: no
+
+
+nav:
+  - Home: index.md
+  - Quickstart: quickstart.md
+  - User Guide:
+    - About change point detection: user_guide/about.md
+    - Installation: user_guide/installation.md
+    - Detecting change points: user_guide/detect.ipynb
+    - Using the R interface: user_guide/r.ipynb
+    - Extending fastchange: user_guide/extending.ipynb
+  - API Reference: reference/
+
+theme:
+  name: 'material'

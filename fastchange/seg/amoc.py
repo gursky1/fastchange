@@ -1,4 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 # Importing packages
+from typing import Callable
+
 import numpy as np
 import numba as nb
 
@@ -6,7 +11,23 @@ from .base import BaseSeg, seg_sig
 
 
 @nb.njit(seg_sig(), fastmath=True, nogil=True, parallel=True)
-def amoc_seg(cost, sumstats, cost_args, penalty, min_len, max_cps, n):
+def amoc_seg(cost: Callable[[int, int, np.ndarray, np.ndarray], float], sumstats: np.ndarray, cost_args: np.ndarray, penalty: Callable[[int, int], float], min_len: int, max_cps: int, n: int) -> np.ndarray:
+    """At-most One Changepoint segmentation algorithm
+    
+    Detects at most one changepoint in a given signal, performing an exhaustive search over all points in a signal, and returning the index (if one exists) that minimizes the cost and penalty functions.
+
+    Args:
+        cost (Callable[[int, int, np.ndarray, np.ndarray], float]): Cost function for segments
+        sumstats (np.ndarray): Summary statistics of signal according to cost function
+        cost_args (np.ndarray): Arguments to pass to cost function
+        penalty (Callable[[int, int], float]): Complexity penalty
+        min_len (int): Minimum segment length
+        max_cps (int): Maximum number of changepoints to return
+        n (int): Number of points in signal
+
+    Returns:
+        np.ndarray: Indices of change points
+    """
 
     # Creating partial cost function
     def _cost_fn(start, end):
@@ -31,5 +52,6 @@ def amoc_seg(cost, sumstats, cost_args, penalty, min_len, max_cps, n):
 
 
 class AmocSeg(BaseSeg):
+    """At-most one change point segmentation method"""
 
     seg_fn = staticmethod(amoc_seg)

@@ -1,4 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 # Importing packages
+from typing import Callable
+
 import numpy as np
 import numba as nb
 
@@ -6,7 +11,25 @@ from .base import BaseSeg, seg_sig
 
 
 @nb.njit(seg_sig(), fastmath=True)
-def pelt_seg(cost, sumstats, cost_args, penalty, min_len, max_cps, n):
+def pelt_seg(cost: Callable[[int, int, np.ndarray, np.ndarray], float], sumstats: np.ndarray, cost_args: np.ndarray, penalty: Callable[[int, int], float], min_len: int, max_cps: int, n: int) -> np.ndarray:
+    """Pruned exact linear time segmentation algorithm
+    
+    Exact method for detecting multiple change points in a signal in linear time.
+    
+    R. Killick, P. Fearnhead, and I. A. Eckley. “Optimal Detection of Changepoints With a Linear Computational Cost”. In: Journal of the American Statistical Association 107.500 (2012), pp. 1590-1598. doi: 10.1080/01621459.2012.737745. eprint: https://doi.org/ 10.1080/01621459.2012.737745. url: https://doi.org/10.1080/01621459.2012.737745
+
+    Args:
+        cost (Callable[[int, int, np.ndarray, np.ndarray], float]): Cost function for segments
+        sumstats (np.ndarray): Summary statistics of signal according to cost function
+        cost_args (np.ndarray): Arguments to pass to cost function
+        penalty (Callable[[int, int], float]): Complexity penalty
+        min_len (int): Minimum segment length
+        max_cps (int): Maximum number of changepoints to return
+        n (int): Number of points in signal
+
+    Returns:
+        np.ndarray: Indices of change points
+    """
     
     # Creating partial cost function
     def _cost_fn(start, end,):
@@ -84,5 +107,6 @@ def pelt_seg(cost, sumstats, cost_args, penalty, min_len, max_cps, n):
 
 
 class PeltSeg(BaseSeg):
+    """Pruned exact linear time segmentation algorithm"""
 
     seg_fn = staticmethod(pelt_seg)

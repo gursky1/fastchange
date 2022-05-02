@@ -1,4 +1,9 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
 # Importing packages
+from typing import Callable
+
 import numpy as np
 import numba as nb
 
@@ -6,7 +11,25 @@ from .base import BaseSeg, seg_sig
 
 
 @nb.njit(seg_sig(), fastmath=True)
-def binary_seg(cost, sumstats, cost_args, penalty, min_len, max_cps, n):
+def binary_seg(cost: Callable[[int, int, np.ndarray, np.ndarray], float], sumstats: np.ndarray, cost_args: np.ndarray, penalty: Callable[[int, int], float], min_len: int, max_cps: int, n: int) -> np.ndarray:
+    """Binary segmentation algorithm
+    
+    Recursively identifies change points in a signal and on each resulting subsignal, until the no more change points are discovered or we find the max number of change points. Note this method is not exact, as change point indices may not be globally optimal, but is faster than exact methods like PELT.
+    
+    A. J. Scott and M. Knott. “A Cluster Analysis Method for Grouping Means in the Analysis of Variance”. In: Biometrics 30.3 (1974), pp. 507-512. issn: 0006341X, 15410420. url: http://www.jstor.org/stable/2529204 (visited on 04/23/2022)
+
+    Args:
+        cost (Callable[[int, int, np.ndarray, np.ndarray], float]): Cost function for segments
+        sumstats (np.ndarray): Summary statistics of signal according to cost function
+        cost_args (np.ndarray): Arguments to pass to cost function
+        penalty (Callable[[int, int], float]): Complexity penalty
+        min_len (int): Minimum segment length
+        max_cps (int): Maximum number of changepoints to return
+        n (int): Number of points in signal
+
+    Returns:
+        np.ndarray: Indices of change points
+    """
     
     # Creating partial cost function
     def _cost_fn(start, end,):
@@ -72,5 +95,6 @@ def binary_seg(cost, sumstats, cost_args, penalty, min_len, max_cps, n):
 
 
 class BinSeg(BaseSeg):
+    """Binary segmentation method"""
     
     seg_fn = staticmethod(binary_seg)
