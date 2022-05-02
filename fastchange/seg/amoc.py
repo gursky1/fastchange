@@ -10,7 +10,7 @@ import numba as nb
 from .base import BaseSeg, seg_sig
 
 
-@nb.njit(seg_sig(), fastmath=True, nogil=True, parallel=True)
+@nb.njit(seg_sig(), cache=True, fastmath=True, nogil=True, parallel=True)
 def amoc_seg(cost: Callable[[int, int, np.ndarray, np.ndarray], float], sumstats: np.ndarray, cost_args: np.ndarray, penalty: Callable[[int, int], float], min_len: int, max_cps: int, n: int) -> np.ndarray:
     """At-most One Changepoint segmentation algorithm
     

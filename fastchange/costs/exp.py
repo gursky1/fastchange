@@ -12,7 +12,7 @@ from .base import BaseCost, preprocess_sig, cost_sig
 
 
 
-@nb.njit(cost_sig, fastmath=True)
+@nb.njit(cost_sig, cache=True, fastmath=True)
 def exponential_cost(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> float:
     """Exponential distribution cost of a proposed segment
     
@@ -32,7 +32,7 @@ def exponential_cost(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> fl
     cost = 2.0 * n * (math.log(d1) - math.log(n))
     return cost
 
-@nb.njit(cost_sig, fastmath=True)
+@nb.njit(cost_sig, cache=True, fastmath=True)
 def exponential_cost_mbic(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> float:
     """Exponential distribution cost of a proposed segment with an MBIC penalty
     
@@ -57,7 +57,7 @@ class ExponentialMeanVarCost(BaseCost):
     n_params = 1
     
     @staticmethod
-    @nb.njit(preprocess_sig, fastmath=True)
+    @nb.njit(preprocess_sig, cache=True, fastmath=True)
     def preprocess(y: np.ndarray, args: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         sumstats = np.empty((y.shape[0] + 1, 1), np.float64)
         sumstats[:, 0] = np.append(0.0, y.cumsum())

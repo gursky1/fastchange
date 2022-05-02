@@ -10,7 +10,7 @@ import numba as nb
 from .base import BaseSeg, seg_sig
 
 
-@nb.njit(seg_sig(), fastmath=True)
+@nb.njit(seg_sig(), cache=True, fastmath=True)
 def binary_seg(cost: Callable[[int, int, np.ndarray, np.ndarray], float], sumstats: np.ndarray, cost_args: np.ndarray, penalty: Callable[[int, int], float], min_len: int, max_cps: int, n: int) -> np.ndarray:
     """Binary segmentation algorithm
     

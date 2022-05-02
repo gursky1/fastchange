@@ -11,7 +11,7 @@ import numba as nb
 from .base import BaseCost, preprocess_sig, cost_sig
 
 
-@nb.njit(cost_sig, fastmath=True)
+@nb.njit(cost_sig, cache=True, fastmath=True)
 def normal_mean_cost(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> float:
     """Normal mean change cost of a proposed segment
 
@@ -32,7 +32,7 @@ def normal_mean_cost(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> fl
     return d2 - math.pow(d1, 2) / n
 
 
-@nb.njit(cost_sig, fastmath=True)
+@nb.njit(cost_sig, cache=True, fastmath=True)
 def normal_mean_cost_mbic(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> float:
     """Normal mean change cost of a proposed segment with an MBIC penalty
 
@@ -58,7 +58,7 @@ class NormalMeanCost(BaseCost):
     n_params = 1
     
     @staticmethod
-    @nb.njit(preprocess_sig, fastmath=True)
+    @nb.njit(preprocess_sig, cache=True, fastmath=True)
     def preprocess(y: np.ndarray, args: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         sumstats = np.empty((y.shape[0] + 1, 2), np.float64)
         sumstats[0, :] = 0.0
@@ -72,7 +72,7 @@ class NormalMeanCost(BaseCost):
 
 
 
-@nb.njit(cost_sig, fastmath=True, nogil=True)
+@nb.njit(cost_sig, cache=True, fastmath=True, nogil=True)
 def normal_var_cost(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> float:   
     """Normal variance change cost of a proposed segment
 
@@ -94,7 +94,7 @@ def normal_var_cost(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> flo
     return cost
 
 
-@nb.njit(cost_sig, fastmath=True, nogil=True)
+@nb.njit(cost_sig, cache=True, fastmath=True, nogil=True)
 def normal_var_cost_mbic(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> float:
     """Normal variance change cost of a proposed segment with an MBIC penalty
 
@@ -121,7 +121,7 @@ class NormalVarCost(BaseCost):
     n_params = 1
 
     @staticmethod
-    @nb.njit(preprocess_sig, fastmath=True)
+    @nb.njit(preprocess_sig, cache=True, fastmath=True)
     def preprocess(y: np.ndarray, args: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         sumstats = np.empty((y.shape[0] + 1, 1), np.float64)
         sumstats[:, 0] = np.append(0.0, ((y - y.mean()) ** 2).cumsum())
@@ -133,7 +133,7 @@ class NormalVarCost(BaseCost):
 
 
 
-@nb.njit(cost_sig, fastmath=True, nogil=True)
+@nb.njit(cost_sig, cache=True, fastmath=True, nogil=True)
 def normal_meanvar_cost(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> float:
     """Normal mean and variance change cost of a proposed segment
 
@@ -161,7 +161,7 @@ def normal_meanvar_cost(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) ->
     return cost
 
 
-@nb.njit(cost_sig, fastmath=True, nogil=True)
+@nb.njit(cost_sig, cache=True, fastmath=True, nogil=True)
 def normal_meanvar_cost_mbic(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> float:
     """Normal mean and variance change cost of a proposed segment with an MBIC penalty
 
@@ -188,7 +188,7 @@ class NormalMeanVarCost(BaseCost):
     n_params = 2
     
     @staticmethod
-    @nb.njit(preprocess_sig, fastmath=True)
+    @nb.njit(preprocess_sig, cache=True, fastmath=True)
     def preprocess(y: np.ndarray, args: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         sumstats = np.empty((y.shape[0] + 1, 2), np.float64)
         sumstats[0, :] = 0.0

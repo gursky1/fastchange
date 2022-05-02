@@ -11,7 +11,7 @@ import numba as nb
 from .base import BaseCost, preprocess_sig, cost_sig
 
 
-@nb.njit(cost_sig, fastmath=True)
+@nb.njit(cost_sig, cache=True, fastmath=True)
 def empirical_cost(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> float:
     """Find the non parametric cost of a proposed segment
     
@@ -44,7 +44,7 @@ def empirical_cost(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> floa
     return cost
 
 
-@nb.njit(cost_sig, fastmath=True)
+@nb.njit(cost_sig, cache=True, fastmath=True)
 def empirical_cost_mbic(s: int, e: int, y: np.ndarray, cost_args: np.ndarray) -> float:
     """Find the non parametric cost of a proposed segment with mbic penalty
     
@@ -81,7 +81,7 @@ class EmpiricalCost(BaseCost):
         self.args = np.float64([k])
     
     @staticmethod
-    @nb.njit(preprocess_sig, fastmath=True)
+    @nb.njit(preprocess_sig, cache=True, fastmath=True)
     def preprocess(y: np.ndarray, args: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
 
         # Getting some needed scalars
