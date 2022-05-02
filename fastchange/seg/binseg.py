@@ -97,4 +97,7 @@ def binary_seg(cost: Callable[[int, int, np.ndarray, np.ndarray], float], sumsta
 class BinSeg(BaseSeg):
     """Binary segmentation method"""
     
+    def __init__(self, *args, max_cps: int=10, **kwargs):
+        super().__init__(*args, max_cps=max_cps, **kwargs)
+    
     seg_fn = staticmethod(binary_seg)
