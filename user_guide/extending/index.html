@@ -1836,7 +1836,8 @@ Licensed under the Apache License, Version 2.0.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="extending-fastchange">Extending Fastchange<a class="anchor-link" href="#extending-fastchange">&#182;</a></h1>
+<h1 id="extending-fastchange">Extending Fastchange<a class="anchor-link" href="#extending-fastchange">&#182;</a></h1><p>Fastchange is designed to be extendible. Currently there are a few needed arguments due to using Numba for the JIT compilation, so here we provide an example of creating the segmentation, cost, and penalty components of our change point detection method. We will reimplement the <code>AmocSeg</code>, <code>NormalMeanCost</code>, and <code>bic_penalty</code> objects from Fastchange and test it on some synthetic data.</p>
+
 </div>
 </div>
 </div>
@@ -1847,7 +1848,8 @@ Licensed under the Apache License, Version 2.0.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="importing-base-classes">Importing base classes<a class="anchor-link" href="#importing-base-classes">&#182;</a></h2>
+<h2 id="importing-base-classes">Importing base classes<a class="anchor-link" href="#importing-base-classes">&#182;</a></h2><p>To extend Fastchange we are going to subclass the BaseSeg and BaseCost classes. See the imports below for accessing these:</p>
+
 </div>
 </div>
 </div>
@@ -1900,7 +1902,8 @@ from fastchange.costs.base import BaseCost</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="writing-our-segmentation-class">Writing our segmentation class<a class="anchor-link" href="#writing-our-segmentation-class">&#182;</a></h2>
+<h2 id="writing-our-segmentation-class">Writing our segmentation class<a class="anchor-link" href="#writing-our-segmentation-class">&#182;</a></h2><p>The first think we are going to define is our segmentation algorithm, which in this case is the at-most one change point method. This is essentially just an exhaustive search for the best change point index and comparing it to the cost of no change point. We need to define a single static method called seg_fn with the given arguments (see the docs for what these mean). You will see why we use a static method in the JIT compilation section of this page. Note our seg_fn method should return an array of changepoints. If no change point is detected we will return an empty array.</p>
+
 </div>
 </div>
 </div>
@@ -1999,7 +2002,8 @@ from fastchange.costs.base import BaseCost</div>
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="writing-our-cost-class">Writing our cost class<a class="anchor-link" href="#writing-our-cost-class">&#182;</a></h2>
+<h2 id="writing-our-cost-class">Writing our cost class<a class="anchor-link" href="#writing-our-cost-class">&#182;</a></h2><p>Now we are going to declare our cost function class, which will be used to evaluate how homogeneous a segment is. In this case we are implementing the normal mean cost, which will calculate the normal distribution-based likelihood of a location shift. We need to define two static methods here: preprocess and cost_fn. The preprocess method returns an array of time-index summary statistics used to calculate the cost and an array of float values which can be used to pass arguments to the cost calculation. Our cost_fn method takes four arguments, the start+end indices of a proposed segment, the summary statistics, and an optional array of floats from the preprocess method. The class attribute n_params signifies how many parameters we are estimating in our cost function, which is this case is the normal mean. This attribute is used by our scalar penalty function.</p>
+
 </div>
 </div>
 </div>
@@ -2084,7 +2088,8 @@ class NormalMeanCost(BaseCost):
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="writing-our-penalty-function">Writing our penalty function<a class="anchor-link" href="#writing-our-penalty-function">&#182;</a></h2>
+<h2 id="writing-our-penalty-function">Writing our penalty function<a class="anchor-link" href="#writing-our-penalty-function">&#182;</a></h2><p>Lastly we are going to write a function to penalize the number of change points in our model. Here we will implement the common Bayes information criterion.</p>
+
 </div>
 </div>
 </div>
@@ -2129,7 +2134,8 @@ class NormalMeanCost(BaseCost):
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="testing-it-all-out">Testing it all out<a class="anchor-link" href="#testing-it-all-out">&#182;</a></h2>
+<h2 id="testing-it-all-out">Testing it all out<a class="anchor-link" href="#testing-it-all-out">&#182;</a></h2><p>We are going to test our change point components on a synthetic time series:</p>
+
 </div>
 </div>
 </div>
@@ -2347,6 +2353,30 @@ jp-needs-light-background
 </div>
 
 </div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>From the plot above, we can see that our setup does a pretty good job of identifying the change point!</p>
+
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<h2 id="jit-compilation-with-numba">JIT Compilation with Numba<a class="anchor-link" href="#jit-compilation-with-numba">&#182;</a></h2><p>While our classes defined above do a good job of detecting the change point in our artificial time-series, we likely want to leverage Numba to get a big performance boost. First, we will benchmark our current change point code, and from the cell below we can see it takes on average 5.45 milliseconds.</p>
+
+</div>
+</div>
+</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
@@ -2409,7 +2439,9 @@ jp-needs-light-background
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="jit-compilation-with-numba">JIT Compilation with Numba<a class="anchor-link" href="#jit-compilation-with-numba">&#182;</a></h2>
+<p>We are going to use the awesome Numba package to compile our code on the fly by using a simple function decorator. In the cells below we can see the Numbafied code, which uses the <code>njit</code> decorator with some predefined function signatures from Fastchange. Numba can't be used on instance methods utilizing self, hence why we need to use <code>@staticmethod</code> to define our functions.</p>
+<p>Numba will compile our function at declare time as we have declared the function signature ahead of time, and cache the resulting compiled code will be cached on the host filesystem for faster loading later.</p>
+
 </div>
 </div>
 </div>
@@ -2778,6 +2810,18 @@ jp-needs-light-background
 
 </div>
 
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p>Wow, looks like the Numba-based code is almost 40 times faster than pure Python! There are definitely some more optimizations we could make, such as parallelizing our inner loop in <code>AmocSeg</code> and checking for SIMD vectorization, but this is a good example of how Numba can be leveraged for some fast performance gains.</p>
+
+</div>
+</div>
 </div>
 </div>
 </div>

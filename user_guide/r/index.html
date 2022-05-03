@@ -1780,7 +1780,8 @@ Licensed under the Apache License, Version 2.0.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="using-the-r-interface">Using the R interface<a class="anchor-link" href="#using-the-r-interface">&#182;</a></h1>
+<h1 id="using-the-r-interface">Using the R interface<a class="anchor-link" href="#using-the-r-interface">&#182;</a></h1><p>Given that R already has a wide body of change point detection methods, Fastchange exposes an optional rpy2-based interface for calling R change point libraries with a Scikit-learn API. While the Fastchange classes will be the fastest and easiest to extend, sometimes its useful being able leverage othr libraries.</p>
+
 </div>
 </div>
 </div>
@@ -1791,7 +1792,10 @@ Licensed under the Apache License, Version 2.0.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="installing-the-r-interface">Installing the R interface<a class="anchor-link" href="#installing-the-r-interface">&#182;</a></h2>
+<h2 id="installing-the-r-interface">Installing the R interface<a class="anchor-link" href="#installing-the-r-interface">&#182;</a></h2><p>There are a few installation steps to get the R interface working. First, you need to have a local R installation and the needed packages. Install R using the official R site (<a href="https://www.r-project.org/">https://www.r-project.org/</a>) and install the changepoint, changepoint.np, and bocp libraries. The second step in getting the interface working is installing Fastchange with the optional R dependency:</p>
+<p><code>conda install fastchange[r]</code></p>
+<p>This will install <code>rpy2</code>, a Python package used for calling R. See more at the <code>rpy2</code> homepage here: <a href="https://rpy2.github.io/">https://rpy2.github.io/</a>.</p>
+
 </div>
 </div>
 </div>
@@ -1802,7 +1806,8 @@ Licensed under the Apache License, Version 2.0.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h2 id="detecting-change-points">Detecting change points<a class="anchor-link" href="#detecting-change-points">&#182;</a></h2>
+<h2 id="detecting-change-points">Detecting change points<a class="anchor-link" href="#detecting-change-points">&#182;</a></h2><p>Calling R change point libraries in Fastchange is very similar to the native Python classes. The only difference is in lieu of passing a cost function class and a penalty function we pass them in via string arguments as shown in the example below. See the r changepoint documentation for available arguments: <a href="https://cran.r-project.org/web/packages/changepoint/changepoint.pdf">https://cran.r-project.org/web/packages/changepoint/changepoint.pdf</a></p>
+
 </div>
 </div>
 </div>
