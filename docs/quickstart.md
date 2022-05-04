@@ -5,7 +5,7 @@
 
 First install fastchange:
 
-`conda install fastchange`
+`conda install -c gursky1 fastchange`
 
 Or if you prefer pip:
 

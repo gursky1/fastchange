@@ -10,7 +10,7 @@ if __name__ == '__main__':
     # Running setup
     setup(
         name='fastchange',
-        version='1.0.1',
+        version='1.0.2',
         author="Jacob Gursky",
         author_email='gurskyjacob@gmail.com',
         description="Fast change point detection in Python",

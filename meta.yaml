@@ -1,10 +1,12 @@
 package:
   name: fastchange
-  version: 1.0.1
+  version: 1.0.2
 
 source:
-  git_rev:
-  git_url: https://github.com/gursky1/fastchange
+  path: .
+
+build:
+  noarch: python
 
 requirements:
   build:
@@ -15,6 +17,9 @@ requirements:
     - python
     - numpy
     - numba
+# conda convert --platform all C:\Users\15072\anaconda3\envs\build\conda-bld\noarch\fastchange-1.0.2-py_0.tar.bz2 -o outputdir/
 
 about:
-  home:
+  home: https://github.com/gursky1/fastchange
+  summary: 'Fast change point detection in Python'
+  license: MIT

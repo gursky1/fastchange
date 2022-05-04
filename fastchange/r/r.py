@@ -9,17 +9,21 @@ import rpy2.robjects.packages as rpackages
 import rpy2.robjects as robjects
 
 # import R's utility package
-utils = rpackages.importr('utils')
-rcp = rpackages.importr('changepoint')
-rcpnp = rpackages.importr('changepoint.np')
-rocp = rpackages.importr('ocp')
+try:
+    utils = rpackages.importr('utils')
+    rcp = rpackages.importr('changepoint')
+    rcpnp = rpackages.importr('changepoint.np')
+    rocp = rpackages.importr('ocp')
 
-_r_cpt_methods = {
-    "mean": rcp.cpt_mean,
-    "var": rcp.cpt_var,
-    "meanvar": rcp.cpt_meanvar,
-    "np": rcpnp.cpt_np
-}
+    _r_cpt_methods = {
+        "mean": rcp.cpt_mean,
+        "var": rcp.cpt_var,
+        "meanvar": rcp.cpt_meanvar,
+        "np": rcpnp.cpt_np
+    }
+except:
+    print('Failed to get R installations, please install necessary packages')
+    _r_cpt_methods = {}
 
 class ROfflineChangepoint:
     """Rpy2-based interface for calling R change point libraries"""
