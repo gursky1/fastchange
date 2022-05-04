@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.12">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
@@ -17,7 +17,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.27ad92d8.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.e411adfe.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.cc9b2e1e.min.css">
@@ -805,70 +805,57 @@
 
 
 
-<h2 id="fastchange.penalties.aic_penalty" class="doc doc-heading">
+<h2 class="doc doc-heading" id="fastchange.penalties.aic_penalty">
 <code class="highlight language-python"><span class="n">aic_penalty</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_params</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.penalties.aic_penalty" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.penalties.aic_penalty" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
 
       <p>Segment cost penalty based on Akaike information criterion (AIC).</p>
 <p>H. Akaike. “A new look at the statistical model identification”. In: IEEE Transactions on Automatic Control 19.6 (1974), pp. 716-723.doi: 10.1109/TAC.1974.1100705</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>n</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of change points in model (unused).</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>n</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Number of change points in model (unused).</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>n_params</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Number of parameters estimated in cost function.</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
       <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
+        <td><code>n_params</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of parameters estimated in cost function.</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-<td><code>float</code></td>          <td>
-                <code>float</code>
-          </td>
-          <td><p>Complexity penalty for segment</p></td>
-        </tr>
-    </tbody>
-  </table>
-
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>Complexity penalty for segment</p></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -879,70 +866,57 @@
 
 
 
-<h2 id="fastchange.penalties.bic_penalty" class="doc doc-heading">
+<h2 class="doc doc-heading" id="fastchange.penalties.bic_penalty">
 <code class="highlight language-python"><span class="n">bic_penalty</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_params</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.penalties.bic_penalty" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.penalties.bic_penalty" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
 
       <p>Segment cost penalty based on Bayesian/Schwarz information criterion (BIC/SIC).</p>
 <p>Gideon Schwarz. “Estimating the Dimension of a Model”. In: The Annals of Statistics 6.2 (1978), pp. 461-464. doi: 10.1214/aos/ 1176344136. url: https://doi.org/10.1214/aos/1176344136</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>n</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of change points in model</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>n</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Number of change points in model</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>n_params</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Number of parameters estimated in cost function.</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
       <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
+        <td><code>n_params</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of parameters estimated in cost function.</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-<td><code>float</code></td>          <td>
-                <code>float</code>
-          </td>
-          <td><p>Complexity penalty for segment</p></td>
-        </tr>
-    </tbody>
-  </table>
-
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>Complexity penalty for segment</p></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -953,70 +927,57 @@
 
 
 
-<h2 id="fastchange.penalties.hq_penalty" class="doc doc-heading">
+<h2 class="doc doc-heading" id="fastchange.penalties.hq_penalty">
 <code class="highlight language-python"><span class="n">hq_penalty</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_params</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.penalties.hq_penalty" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.penalties.hq_penalty" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
 
       <p>Segment cost penalty based on Hannan-Quinn information criterion (HQIC).</p>
 <p>Antonio Aznar Grasa. “Introduction”. In: Econometric Model Selection: A New Approach. Dordrecht: Springer Netherlands, 1989,pp. 1-4. isbn: 978-94-017-1358-0. doi: 10.1007/978-94-017-1358-0_1. url: https://doi.org/10.1007/978-94-017-1358-0_1</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>n</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of change points in model</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>n</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Number of change points in model</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>n_params</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Number of parameters estimated in cost function.</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
       <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
+        <td><code>n_params</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of parameters estimated in cost function.</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-<td><code>float</code></td>          <td>
-                <code>float</code>
-          </td>
-          <td><p>Complexity penalty for segment</p></td>
-        </tr>
-    </tbody>
-  </table>
-
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>Complexity penalty for segment</p></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -1027,73 +988,61 @@
 
 
 
-<h2 id="fastchange.penalties.mbic_penalty" class="doc doc-heading">
+<h2 class="doc doc-heading" id="fastchange.penalties.mbic_penalty">
 <code class="highlight language-python"><span class="n">mbic_penalty</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">n_params</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.penalties.mbic_penalty" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.penalties.mbic_penalty" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
 
       <p>Segment cost penalty based on the modified Bayesian information criterion (MBIC).</p>
 <p>Nancy R. Zhang and David O. Siegmund. “A modified Bayes information criterion with applications to the analysis of comparative genomic hybridization data”. In: Biometrics 63 (2007), pp. 22-32.</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>n</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of change points in model</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>n</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Number of change points in model</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>n_params</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Number of parameters estimated in cost function.</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
       <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
+        <td><code>n_params</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of parameters estimated in cost function.</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-<td><code>float</code></td>          <td>
-                <code>float</code>
-          </td>
-          <td><p>Complexity penalty for segment</p></td>
-        </tr>
-    </tbody>
-  </table>
-
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>Complexity penalty for segment</p></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
+
 
 
 

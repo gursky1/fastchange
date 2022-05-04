@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.12">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
@@ -17,7 +17,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.27ad92d8.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.e411adfe.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.cc9b2e1e.min.css">
@@ -820,61 +820,50 @@
 
 
 
-<h2 id="fastchange.costs.base.BaseCost" class="doc doc-heading">
-          <code>BaseCost</code>
+<h2 class="doc doc-heading" id="fastchange.costs.base.BaseCost">
+        <code>
+BaseCost        </code>
 
 
 
-<a href="#fastchange.costs.base.BaseCost" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.costs.base.BaseCost" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
 
-
       <p>Base class for all cost functions</p>
 
-  <p><strong>Attributes:</strong></p>
-  <table>
-    <thead>
+<p><strong>Attributes:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
+        <td><code>n_params</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of parameters in cost function to estimate</p></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>n_params</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Number of parameters in cost function to estimate</p></td>
-        </tr>
-        <tr>
-          <td><code>args</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Arguments to pass to preprocessing method</p></td>
-        </tr>
-        <tr>
-          <td><code>sumstats</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Summary statistics of signal</p></td>
-        </tr>
-        <tr>
-          <td><code>cost_args</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Calculated arguments to pass to cost method</p></td>
-        </tr>
-    </tbody>
-  </table>
-
-
+      <tr>
+        <td><code>args</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Arguments to pass to preprocessing method</p></td>
+      </tr>
+      <tr>
+        <td><code>sumstats</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Summary statistics of signal</p></td>
+      </tr>
+      <tr>
+        <td><code>cost_args</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Calculated arguments to pass to cost method</p></td>
+      </tr>
+  </tbody>
+</table>
 
 
 
@@ -889,16 +878,18 @@
 
 
 
-  <div class="doc doc-object doc-function">
+  <div class="doc doc-object doc-method">
 
 
 
-<h3 id="fastchange.costs.base.BaseCost.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">()</span></code>
+<h3 class="doc doc-heading" id="fastchange.costs.base.BaseCost.__init__">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
 
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
 
-<a href="#fastchange.costs.base.BaseCost.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
-
+<a class="headerlink" href="#fastchange.costs.base.BaseCost.__init__" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
@@ -910,118 +901,99 @@
 
 
 
-  <div class="doc doc-object doc-function">
+  <div class="doc doc-object doc-method">
 
 
 
-<h3 id="fastchange.costs.base.BaseCost.cost" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">cost</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span></code>
+<h3 class="doc doc-heading" id="fastchange.costs.base.BaseCost.cost">
+<code class="highlight language-python"><span class="n">cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.costs.base.BaseCost.cost" class="headerlink" title="Permanent link">&para;</a></h3>
-
+<a class="headerlink" href="#fastchange.costs.base.BaseCost.cost" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
       <p>Find the cost of segment [start, end] for the signal</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>start</code></td>
+        <td><code>int</code></td>
+        <td><p>Starting index</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>start</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Starting index</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>end</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Ending index</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
       <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
+        <td><code>end</code></td>
+        <td><code>int</code></td>
+        <td><p>Ending index</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-<td><code>float</code></td>          <td>
-                <code>float</code>
-          </td>
-          <td><p>Cost of segment</p></td>
-        </tr>
-    </tbody>
-  </table>
-
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>Cost of segment</p></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
 
 
 
-  <div class="doc doc-object doc-function">
+  <div class="doc doc-object doc-method">
 
 
 
-<h3 id="fastchange.costs.base.BaseCost.fit" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">fit</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></code>
+<h3 class="doc doc-heading" id="fastchange.costs.base.BaseCost.fit">
+<code class="highlight language-python"><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.costs.base.BaseCost.fit" class="headerlink" title="Permanent link">&para;</a></h3>
-
+<a class="headerlink" href="#fastchange.costs.base.BaseCost.fit" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
       <p>Create summary statistics and arguments for cost function</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>y</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Signal</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>y</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Signal</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -1035,6 +1007,7 @@
     </div>
 
   </div>
+
 
 
 

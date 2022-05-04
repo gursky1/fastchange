@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.12">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
@@ -17,7 +17,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.27ad92d8.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.e411adfe.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.cc9b2e1e.min.css">
@@ -463,6 +463,20 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#fastchange.costs.emp.EmpiricalCost.cost_fn" class="md-nav__link">
+    cost_fn()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fastchange.costs.emp.EmpiricalCost.cost_fn_mbic" class="md-nav__link">
+    cost_fn_mbic()
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -763,6 +777,20 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#fastchange.costs.emp.EmpiricalCost.cost_fn" class="md-nav__link">
+    cost_fn()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fastchange.costs.emp.EmpiricalCost.cost_fn_mbic" class="md-nav__link">
+    cost_fn_mbic()
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -818,21 +846,18 @@
 
 
 
-<h2 id="fastchange.costs.emp.EmpiricalCost" class="doc doc-heading">
-          <code>EmpiricalCost</code>
+<h2 class="doc doc-heading" id="fastchange.costs.emp.EmpiricalCost">
+        <code>
+EmpiricalCost            (<a class="autorefs autorefs-internal" title="fastchange.costs.base.BaseCost" href="../base/#fastchange.costs.base.BaseCost">BaseCost</a>)
+        </code>
 
 
 
-<a href="#fastchange.costs.emp.EmpiricalCost" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.costs.emp.EmpiricalCost" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
-        <p class="doc doc-class-bases">
-          Bases: <code><a class="autorefs autorefs-internal" title="fastchange.costs.base.BaseCost" href="../base/#fastchange.costs.base.BaseCost">BaseCost</a></code></p>
-
 
       <p>Empirical distribution approximation non parametric cost function</p>
-
 
 
 
@@ -848,75 +873,60 @@
 
 
 
-
-
-  <div class="doc doc-object doc-function">
+  <div class="doc doc-object doc-method">
 
 
 
-<h3 id="fastchange.costs.emp.EmpiricalCost.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<h3 class="doc doc-heading" id="fastchange.costs.emp.EmpiricalCost.__init__">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
 
-<a href="#fastchange.costs.emp.EmpiricalCost.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
-
+<a class="headerlink" href="#fastchange.costs.emp.EmpiricalCost.__init__" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
       <p>Initialization method</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>k</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of quantiles in empirical distribution. Defaults to 10.</p></td>
+        <td><code>10</code></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>k</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Number of quantiles in empirical distribution. Defaults to 10.</p></td>
-          <td>
-                <code>10</code>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
+  </tbody>
+</table>
     </div>
 
   </div>
 
 
 
+  <div class="doc doc-object doc-method">
 
 
 
-  </div>
+<h3 class="doc doc-heading" id="fastchange.costs.emp.EmpiricalCost.cost_fn">
+<code class="highlight language-python"><span class="n">cost_fn</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cost_args</span><span class="p">)</span></code>
 
-    </div>
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small>
+  </span>
 
-  </div>
-
-
-
-
-  <div class="doc doc-object doc-function">
-
-
-
-<h2 id="fastchange.costs.emp.empirical_cost" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">empirical_cost</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cost_args</span><span class="p">)</span></code>
-
-
-<a href="#fastchange.costs.emp.empirical_cost" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.costs.emp.EmpiricalCost.cost_fn" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
@@ -924,78 +934,221 @@
 <p>Uses the empirical distribution approximation presented in Chandliang et al.</p>
 <p>Changliang Zou et al. “NONPARAMETRIC MAXIMUM LIKELIHOOD APPROACH TO MULTIPLE CHANGE-POINT PROBLEMS”. In: The Annals of Statistics 42.3 (2014), pp. 970-1002. issn: 00905364. url: http://www.jstor.org/stable/43556312 (visited on 04/23/2022)</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>s</code></td>
+        <td><code>int</code></td>
+        <td><p>Start index of segment</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>s</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Start index of segment</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>e</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>End index of segment</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>y</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Summary statistics of signal</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>cost_args</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Arguments of cost function. First value is k (number of quantiles), and second value is the constant c calculated during the fitting phase.</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
       <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
+        <td><code>e</code></td>
+        <td><code>int</code></td>
+        <td><p>End index of segment</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-<td><code>float</code></td>          <td>
-                <code>float</code>
-          </td>
-          <td><p>Segment cost</p></td>
-        </tr>
-    </tbody>
-  </table>
+      <tr>
+        <td><code>y</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Summary statistics of signal</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>cost_args</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Arguments of cost function. First value is k (number of quantiles), and second value is the constant c calculated during the fitting phase.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>Segment cost</p></td>
+    </tr>
+  </tbody>
+</table>
+    </div>
 
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="fastchange.costs.emp.EmpiricalCost.cost_fn_mbic">
+<code class="highlight language-python"><span class="n">cost_fn_mbic</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cost_args</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a class="headerlink" href="#fastchange.costs.emp.EmpiricalCost.cost_fn_mbic" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Find the non parametric cost of a proposed segment with mbic penalty</p>
+<p>Uses the empirical distribution approximation presented in Chandliang et al.</p>
+<p>Changliang Zou et al. “NONPARAMETRIC MAXIMUM LIKELIHOOD APPROACH TO MULTIPLE CHANGE-POINT PROBLEMS”. In: The Annals of Statistics 42.3 (2014), pp. 970-1002. issn: 00905364. url: http://www.jstor.org/stable/43556312 (visited on 04/23/2022)</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>s</code></td>
+        <td><code>int</code></td>
+        <td><p>Start index of segment</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>e</code></td>
+        <td><code>int</code></td>
+        <td><p>End index of segment</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>y</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Summary statistics of signal</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>cost_args</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Arguments of cost function. First value is k (number of quantiles), and second value is the constant c calculated during the fitting phase.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>Segment cost</p></td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="fastchange.costs.emp.empirical_cost">
+<code class="highlight language-python"><span class="n">empirical_cost</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cost_args</span><span class="p">)</span></code>
+
+
+<a class="headerlink" href="#fastchange.costs.emp.empirical_cost" title="Permanent link">&para;</a></h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Find the non parametric cost of a proposed segment</p>
+<p>Uses the empirical distribution approximation presented in Chandliang et al.</p>
+<p>Changliang Zou et al. “NONPARAMETRIC MAXIMUM LIKELIHOOD APPROACH TO MULTIPLE CHANGE-POINT PROBLEMS”. In: The Annals of Statistics 42.3 (2014), pp. 970-1002. issn: 00905364. url: http://www.jstor.org/stable/43556312 (visited on 04/23/2022)</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>s</code></td>
+        <td><code>int</code></td>
+        <td><p>Start index of segment</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>e</code></td>
+        <td><code>int</code></td>
+        <td><p>End index of segment</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>y</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Summary statistics of signal</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>cost_args</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Arguments of cost function. First value is k (number of quantiles), and second value is the constant c calculated during the fitting phase.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>Segment cost</p></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -1006,12 +1159,11 @@
 
 
 
-<h2 id="fastchange.costs.emp.empirical_cost_mbic" class="doc doc-heading">
+<h2 class="doc doc-heading" id="fastchange.costs.emp.empirical_cost_mbic">
 <code class="highlight language-python"><span class="n">empirical_cost_mbic</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">cost_args</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.costs.emp.empirical_cost_mbic" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.costs.emp.empirical_cost_mbic" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
 
@@ -1019,81 +1171,62 @@
 <p>Uses the empirical distribution approximation presented in Chandliang et al.</p>
 <p>Changliang Zou et al. “NONPARAMETRIC MAXIMUM LIKELIHOOD APPROACH TO MULTIPLE CHANGE-POINT PROBLEMS”. In: The Annals of Statistics 42.3 (2014), pp. 970-1002. issn: 00905364. url: http://www.jstor.org/stable/43556312 (visited on 04/23/2022)</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>s</code></td>
+        <td><code>int</code></td>
+        <td><p>Start index of segment</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>s</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Start index of segment</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>e</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>End index of segment</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>y</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Summary statistics of signal</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>cost_args</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Arguments of cost function. First value is k (number of quantiles), and second value is the constant c calculated during the fitting phase.</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
       <tr>
-<th>Name</th>        <th>Type</th>
-        <th>Description</th>
+        <td><code>e</code></td>
+        <td><code>int</code></td>
+        <td><p>End index of segment</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-<td><code>float</code></td>          <td>
-                <code>float</code>
-          </td>
-          <td><p>Segment cost</p></td>
-        </tr>
-    </tbody>
-  </table>
-
+      <tr>
+        <td><code>y</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Summary statistics of signal</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>cost_args</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Arguments of cost function. First value is k (number of quantiles), and second value is the constant c calculated during the fitting phase.</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>float</code></td>
+      <td><p>Segment cost</p></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
+
 
 
 

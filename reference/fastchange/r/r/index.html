@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.12">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
@@ -17,7 +17,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.27ad92d8.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.e411adfe.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.cc9b2e1e.min.css">
@@ -883,31 +883,25 @@
 
 
 
-
-
-
-
   <div class="doc doc-object doc-class">
 
 
 
-<h2 id="fastchange.r.r.ROCP" class="doc doc-heading">
-          <code>ROCP</code>
+<h2 class="doc doc-heading" id="fastchange.r.r.ROCP">
+        <code>
+ROCP        </code>
 
 
 
-<a href="#fastchange.r.r.ROCP" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.r.r.ROCP" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
-
 
       <p>Online change point detection calling the r bocp library</p>
 
 
 
 
-
   <div class="doc doc-children">
 
 
@@ -918,16 +912,18 @@
 
 
 
-  <div class="doc doc-object doc-function">
+  <div class="doc doc-object doc-method">
 
 
 
-<h3 id="fastchange.r.r.ROCP.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<h3 class="doc doc-heading" id="fastchange.r.r.ROCP.__init__">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
 
-<a href="#fastchange.r.r.ROCP.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
-
+<a class="headerlink" href="#fastchange.r.r.ROCP.__init__" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
@@ -940,84 +936,74 @@
 
 
 
-  <div class="doc doc-object doc-function">
+  <div class="doc doc-object doc-method">
 
 
 
-<h3 id="fastchange.r.r.ROCP.fit" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">fit</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></code>
+<h3 class="doc doc-heading" id="fastchange.r.r.ROCP.fit">
+<code class="highlight language-python"><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.r.r.ROCP.fit" class="headerlink" title="Permanent link">&para;</a></h3>
-
+<a class="headerlink" href="#fastchange.r.r.ROCP.fit" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
       <p>Fit model and find changepoints</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>y</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Signal of which to find change points</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>y</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Signal of which to find change points</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
+  </tbody>
+</table>
     </div>
 
   </div>
 
 
 
-  <div class="doc doc-object doc-function">
+  <div class="doc doc-object doc-method">
 
 
 
-<h3 id="fastchange.r.r.ROCP.predict" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">predict</span><span class="p">()</span></code>
+<h3 class="doc doc-heading" id="fastchange.r.r.ROCP.predict">
+<code class="highlight language-python"><span class="n">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.r.r.ROCP.predict" class="headerlink" title="Permanent link">&para;</a></h3>
-
+<a class="headerlink" href="#fastchange.r.r.ROCP.predict" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
       <p>Get indices of change points in signal</p>
 
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>np.ndarray: Indices of change points</p></td>
-        </tr>
-    </tbody>
-  </table>
-
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>np.ndarray</code></td>
+      <td><p>Indices of change points</p></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -1038,19 +1024,17 @@
 
 
 
-<h2 id="fastchange.r.r.ROfflineChangepoint" class="doc doc-heading">
-          <code>ROfflineChangepoint</code>
+<h2 class="doc doc-heading" id="fastchange.r.r.ROfflineChangepoint">
+        <code>
+ROfflineChangepoint        </code>
 
 
 
-<a href="#fastchange.r.r.ROfflineChangepoint" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.r.r.ROfflineChangepoint" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
 
-
       <p>Rpy2-based interface for calling R change point libraries</p>
-
 
 
 
@@ -1065,132 +1049,117 @@
 
 
 
-
-
-  <div class="doc doc-object doc-function">
+  <div class="doc doc-object doc-method">
 
 
 
-<h3 id="fastchange.r.r.ROfflineChangepoint.__init__" class="doc doc-heading">
-<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="n">cost_method</span><span class="o">=</span><span class="s1">&#39;meanvar&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
+<h3 class="doc doc-heading" id="fastchange.r.r.ROfflineChangepoint.__init__">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cost_method</span><span class="o">=</span><span class="s1">&#39;meanvar&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></code>
 
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
 
-<a href="#fastchange.r.r.ROfflineChangepoint.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
-
+<a class="headerlink" href="#fastchange.r.r.ROfflineChangepoint.__init__" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
       <p>Initialization method</p>
 <p>Keyword arguments will be passed to the underlying R function.</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>cost_method</code></td>
+        <td><code>str</code></td>
+        <td><p>What cost to use, must be 'mean', 'var', 'meanvar', or 'np' ('np' corresponds to changepoint.np package). Defaults to 'meanvar'.</p></td>
+        <td><code>&#39;meanvar&#39;</code></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>cost_method</code></td>
-          <td>
-                <code>str</code>
-          </td>
-          <td><p>What cost to use, must be 'mean', 'var', 'meanvar', or 'np' ('np' corresponds to changepoint.np package). Defaults to 'meanvar'.</p></td>
-          <td>
-                <code>&#39;meanvar&#39;</code>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
+  </tbody>
+</table>
     </div>
 
   </div>
 
 
 
-  <div class="doc doc-object doc-function">
+  <div class="doc doc-object doc-method">
 
 
 
-<h3 id="fastchange.r.r.ROfflineChangepoint.fit" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">fit</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></code>
+<h3 class="doc doc-heading" id="fastchange.r.r.ROfflineChangepoint.fit">
+<code class="highlight language-python"><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.r.r.ROfflineChangepoint.fit" class="headerlink" title="Permanent link">&para;</a></h3>
-
+<a class="headerlink" href="#fastchange.r.r.ROfflineChangepoint.fit" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
       <p>Fit model and find changepoints</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>y</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Signal of which to find change points</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>y</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Signal of which to find change points</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
+  </tbody>
+</table>
     </div>
 
   </div>
 
 
 
-  <div class="doc doc-object doc-function">
+  <div class="doc doc-object doc-method">
 
 
 
-<h3 id="fastchange.r.r.ROfflineChangepoint.predict" class="doc doc-heading">
-<code class="highlight language-python"><span class="n">predict</span><span class="p">()</span></code>
+<h3 class="doc doc-heading" id="fastchange.r.r.ROfflineChangepoint.predict">
+<code class="highlight language-python"><span class="n">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.r.r.ROfflineChangepoint.predict" class="headerlink" title="Permanent link">&para;</a></h3>
-
+<a class="headerlink" href="#fastchange.r.r.ROfflineChangepoint.predict" title="Permanent link">&para;</a></h3>
 
     <div class="doc doc-contents ">
 
       <p>Get indices of change points in signal</p>
 
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
-      <tr>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>np.ndarray: Indices of change points</p></td>
-        </tr>
-    </tbody>
-  </table>
-
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>np.ndarray</code></td>
+      <td><p>Indices of change points</p></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
@@ -1204,6 +1173,7 @@
     </div>
 
   </div>
+
 
 
 

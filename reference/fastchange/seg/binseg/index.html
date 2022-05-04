@@ -9,7 +9,7 @@
       
       
       <link rel="icon" href="../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.12">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.13">
     
     
       
@@ -17,7 +17,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.27ad92d8.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.e411adfe.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.cc9b2e1e.min.css">
@@ -645,6 +645,19 @@
     BinSeg
   </a>
   
+    <nav class="md-nav" aria-label="BinSeg">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fastchange.seg.binseg.BinSeg.seg_fn" class="md-nav__link">
+    seg_fn()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -733,6 +746,19 @@
     BinSeg
   </a>
   
+    <nav class="md-nav" aria-label="BinSeg">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#fastchange.seg.binseg.BinSeg.seg_fn" class="md-nav__link">
+    seg_fn()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -778,21 +804,18 @@
 
 
 
-<h2 id="fastchange.seg.binseg.BinSeg" class="doc doc-heading">
-          <code>BinSeg</code>
+<h2 class="doc doc-heading" id="fastchange.seg.binseg.BinSeg">
+        <code>
+BinSeg            (<a class="autorefs autorefs-internal" title="fastchange.seg.base.BaseSeg" href="../base/#fastchange.seg.base.BaseSeg">BaseSeg</a>)
+        </code>
 
 
 
-<a href="#fastchange.seg.binseg.BinSeg" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.seg.binseg.BinSeg" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
-        <p class="doc doc-class-bases">
-          Bases: <code><a class="autorefs autorefs-internal" title="fastchange.seg.base.BaseSeg" href="../base/#fastchange.seg.base.BaseSeg">BaseSeg</a></code></p>
-
 
       <p>Binary segmentation method</p>
-
 
 
 
@@ -805,6 +828,101 @@
 
 
 
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="fastchange.seg.binseg.BinSeg.seg_fn">
+<code class="highlight language-python"><span class="n">seg_fn</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">sumstats</span><span class="p">,</span> <span class="n">cost_args</span><span class="p">,</span> <span class="n">penalty</span><span class="p">,</span> <span class="n">min_len</span><span class="p">,</span> <span class="n">max_cps</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-staticmethod"><code>staticmethod</code></small>
+  </span>
+
+<a class="headerlink" href="#fastchange.seg.binseg.BinSeg.seg_fn" title="Permanent link">&para;</a></h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Binary segmentation algorithm</p>
+<p>Recursively identifies change points in a signal and on each resulting subsignal, until the no more change points are discovered or we find the max number of change points. Note this method is not exact, as change point indices may not be globally optimal, but is faster than exact methods like PELT.</p>
+<p>A. J. Scott and M. Knott. “A Cluster Analysis Method for Grouping Means in the Analysis of Variance”. In: Biometrics 30.3 (1974), pp. 507-512. issn: 0006341X, 15410420. url: http://www.jstor.org/stable/2529204 (visited on 04/23/2022)</p>
+
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+        <td><code>cost</code></td>
+        <td><code>Callable[[int, int, np.ndarray, np.ndarray], float]</code></td>
+        <td><p>Cost function for segments</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>sumstats</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Summary statistics of signal according to cost function</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>cost_args</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Arguments to pass to cost function</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>penalty</code></td>
+        <td><code>Callable[[int, int], float]</code></td>
+        <td><p>Complexity penalty</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>min_len</code></td>
+        <td><code>int</code></td>
+        <td><p>Minimum segment length</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>max_cps</code></td>
+        <td><code>int</code></td>
+        <td><p>Maximum number of changepoints to return</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>n</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of points in signal</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>np.ndarray</code></td>
+      <td><p>Indices of change points</p></td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+
+  </div>
 
 
 
@@ -823,12 +941,11 @@
 
 
 
-<h2 id="fastchange.seg.binseg.binary_seg" class="doc doc-heading">
+<h2 class="doc doc-heading" id="fastchange.seg.binseg.binary_seg">
 <code class="highlight language-python"><span class="n">binary_seg</span><span class="p">(</span><span class="n">cost</span><span class="p">,</span> <span class="n">sumstats</span><span class="p">,</span> <span class="n">cost_args</span><span class="p">,</span> <span class="n">penalty</span><span class="p">,</span> <span class="n">min_len</span><span class="p">,</span> <span class="n">max_cps</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span></code>
 
 
-<a href="#fastchange.seg.binseg.binary_seg" class="headerlink" title="Permanent link">&para;</a></h2>
-
+<a class="headerlink" href="#fastchange.seg.binseg.binary_seg" title="Permanent link">&para;</a></h2>
 
     <div class="doc doc-contents ">
 
@@ -836,111 +953,80 @@
 <p>Recursively identifies change points in a signal and on each resulting subsignal, until the no more change points are discovered or we find the max number of change points. Note this method is not exact, as change point indices may not be globally optimal, but is faster than exact methods like PELT.</p>
 <p>A. J. Scott and M. Knott. “A Cluster Analysis Method for Grouping Means in the Analysis of Variance”. In: Biometrics 30.3 (1974), pp. 507-512. issn: 0006341X, 15410420. url: http://www.jstor.org/stable/2529204 (visited on 04/23/2022)</p>
 
-  <p><strong>Parameters:</strong></p>
-  <table>
-    <thead>
+<p><strong>Parameters:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Default</th>
+    </tr>
+  </thead>
+  <tbody>
       <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Default</th>
+        <td><code>cost</code></td>
+        <td><code>Callable[[int, int, np.ndarray, np.ndarray], float]</code></td>
+        <td><p>Cost function for segments</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td><code>cost</code></td>
-          <td>
-                <code><span title="typing.Callable">Callable</span>[[int, int, <span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span>, <span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span>], float]</code>
-          </td>
-          <td><p>Cost function for segments</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>sumstats</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Summary statistics of signal according to cost function</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>cost_args</code></td>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>Arguments to pass to cost function</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>penalty</code></td>
-          <td>
-                <code><span title="typing.Callable">Callable</span>[[int, int], float]</code>
-          </td>
-          <td><p>Complexity penalty</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>min_len</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Minimum segment length</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>max_cps</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Maximum number of changepoints to return</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-        <tr>
-          <td><code>n</code></td>
-          <td>
-                <code>int</code>
-          </td>
-          <td><p>Number of points in signal</p></td>
-          <td>
-              <em>required</em>
-          </td>
-        </tr>
-    </tbody>
-  </table>
-
-  <p><strong>Returns:</strong></p>
-  <table>
-    <thead>
       <tr>
-        <th>Type</th>
-        <th>Description</th>
+        <td><code>sumstats</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Summary statistics of signal according to cost function</p></td>
+        <td><em>required</em></td>
       </tr>
-    </thead>
-    <tbody>
-        <tr>
-          <td>
-                <code><span title="numpy">np</span>.<span title="numpy.ndarray">ndarray</span></code>
-          </td>
-          <td><p>np.ndarray: Indices of change points</p></td>
-        </tr>
-    </tbody>
-  </table>
-
+      <tr>
+        <td><code>cost_args</code></td>
+        <td><code>np.ndarray</code></td>
+        <td><p>Arguments to pass to cost function</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>penalty</code></td>
+        <td><code>Callable[[int, int], float]</code></td>
+        <td><p>Complexity penalty</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>min_len</code></td>
+        <td><code>int</code></td>
+        <td><p>Minimum segment length</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>max_cps</code></td>
+        <td><code>int</code></td>
+        <td><p>Maximum number of changepoints to return</p></td>
+        <td><em>required</em></td>
+      </tr>
+      <tr>
+        <td><code>n</code></td>
+        <td><code>int</code></td>
+        <td><p>Number of points in signal</p></td>
+        <td><em>required</em></td>
+      </tr>
+  </tbody>
+</table>
+<p><strong>Returns:</strong></p>
+<table>
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>np.ndarray</code></td>
+      <td><p>Indices of change points</p></td>
+    </tr>
+  </tbody>
+</table>
     </div>
 
   </div>
+
 
 
 
